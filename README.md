@@ -3427,3 +3427,605 @@ string alienOrder(vector<string>& words) {
 18. **Palindromic Subsequence**: String DP
 19. **Longest Common Subsequence**: Two-string comparison
 20. **Monotonic Stack**: Next greater/smaller element
+
+---
+
+## LeetCode Problem Mapping by Pattern
+
+### Array Problems
+| # | Problem | Pattern | Difficulty |
+|---|---------|---------|------------|
+| 53 | Maximum Subarray | Kadane's Algorithm | Medium |
+| 121 | Best Time to Buy and Sell Stock | Kadane's variant | Easy |
+| 152 | Maximum Product Subarray | DP with min/max tracking | Medium |
+| 238 | Product of Array Except Self | Prefix/Suffix products | Medium |
+| 41 | First Missing Positive | Index as hash key | Hard |
+| 287 | Find the Duplicate Number | Floyd's cycle detection | Medium |
+| 442 | Find All Duplicates in Array | Index as hash key | Medium |
+| 448 | Find All Numbers Disappeared | Index as hash key | Easy |
+| 75 | Sort Colors | Dutch National Flag | Medium |
+| 31 | Next Permutation | Two pointers + reverse | Medium |
+| 189 | Rotate Array | Reverse trick | Medium |
+| 169 | Majority Element | Boyer-Moore voting | Easy |
+| 229 | Majority Element II | Boyer-Moore extended | Medium |
+
+### Two Pointers Problems
+| # | Problem | Pattern | Difficulty |
+|---|---------|---------|------------|
+| 1 | Two Sum | Hash map | Easy |
+| 167 | Two Sum II - Sorted | Two pointers opposite | Medium |
+| 15 | 3Sum | Sort + Two pointers | Medium |
+| 16 | 3Sum Closest | Sort + Two pointers | Medium |
+| 18 | 4Sum | Sort + Two pointers | Medium |
+| 11 | Container With Most Water | Two pointers greedy | Medium |
+| 42 | Trapping Rain Water | Two pointers / Stack | Hard |
+| 125 | Valid Palindrome | Two pointers | Easy |
+| 680 | Valid Palindrome II | Two pointers + greedy | Easy |
+| 26 | Remove Duplicates from Sorted Array | Fast/slow pointers | Easy |
+| 27 | Remove Element | Fast/slow pointers | Easy |
+| 283 | Move Zeroes | Fast/slow pointers | Easy |
+| 344 | Reverse String | Two pointers swap | Easy |
+| 88 | Merge Sorted Array | Two pointers from end | Easy |
+
+### Sliding Window Problems
+| # | Problem | Pattern | Difficulty |
+|---|---------|---------|------------|
+| 3 | Longest Substring Without Repeating | Variable window + Set | Medium |
+| 76 | Minimum Window Substring | Variable window + Map | Hard |
+| 209 | Minimum Size Subarray Sum | Variable window | Medium |
+| 424 | Longest Repeating Character Replacement | Variable window | Medium |
+| 567 | Permutation in String | Fixed window + freq | Medium |
+| 438 | Find All Anagrams in String | Fixed window + freq | Medium |
+| 239 | Sliding Window Maximum | Monotonic deque | Hard |
+| 480 | Sliding Window Median | Two heaps | Hard |
+| 904 | Fruit Into Baskets | Variable window | Medium |
+| 1004 | Max Consecutive Ones III | Variable window | Medium |
+| 1438 | Longest Subarray with Limit | Monotonic deque | Medium |
+
+### Binary Search Problems
+| # | Problem | Pattern | Difficulty |
+|---|---------|---------|------------|
+| 704 | Binary Search | Standard | Easy |
+| 33 | Search in Rotated Sorted Array | Modified BS | Medium |
+| 81 | Search in Rotated Sorted Array II | Modified BS + duplicates | Medium |
+| 153 | Find Minimum in Rotated Sorted Array | Modified BS | Medium |
+| 154 | Find Minimum in Rotated Sorted Array II | Modified BS + duplicates | Hard |
+| 34 | Find First and Last Position | Lower/Upper bound | Medium |
+| 35 | Search Insert Position | Lower bound | Easy |
+| 74 | Search a 2D Matrix | 2D to 1D BS | Medium |
+| 240 | Search a 2D Matrix II | BS per row/col | Medium |
+| 162 | Find Peak Element | BS on answer | Medium |
+| 852 | Peak Index in Mountain Array | BS on answer | Medium |
+| 875 | Koko Eating Bananas | BS on answer | Medium |
+| 1011 | Capacity To Ship Packages | BS on answer | Medium |
+| 410 | Split Array Largest Sum | BS on answer | Hard |
+| 69 | Sqrt(x) | BS on answer | Easy |
+| 278 | First Bad Version | BS | Easy |
+
+### Linked List Problems
+| # | Problem | Pattern | Difficulty |
+|---|---------|---------|------------|
+| 206 | Reverse Linked List | Iterative/Recursive | Easy |
+| 92 | Reverse Linked List II | Partial reverse | Medium |
+| 25 | Reverse Nodes in k-Group | k-group reverse | Hard |
+| 141 | Linked List Cycle | Fast/slow pointers | Easy |
+| 142 | Linked List Cycle II | Floyd's algorithm | Medium |
+| 876 | Middle of the Linked List | Fast/slow pointers | Easy |
+| 19 | Remove Nth Node From End | Two pointers k-apart | Medium |
+| 21 | Merge Two Sorted Lists | Dummy node | Easy |
+| 23 | Merge k Sorted Lists | Heap / Divide conquer | Hard |
+| 143 | Reorder List | Find mid + reverse + merge | Medium |
+| 234 | Palindrome Linked List | Fast/slow + reverse | Easy |
+| 160 | Intersection of Two Linked Lists | Two pointers | Easy |
+| 328 | Odd Even Linked List | Two pointers | Medium |
+| 138 | Copy List with Random Pointer | Hash map / Interweaving | Medium |
+| 146 | LRU Cache | Hash map + DLL | Medium |
+| 460 | LFU Cache | Hash maps + DLL | Hard |
+
+### Stack Problems
+| # | Problem | Pattern | Difficulty |
+|---|---------|---------|------------|
+| 20 | Valid Parentheses | Stack matching | Easy |
+| 155 | Min Stack | Auxiliary stack | Medium |
+| 232 | Implement Queue using Stacks | Two stacks | Easy |
+| 225 | Implement Stack using Queues | Two queues | Easy |
+| 150 | Evaluate Reverse Polish Notation | Stack | Medium |
+| 71 | Simplify Path | Stack | Medium |
+| 394 | Decode String | Stack | Medium |
+| 735 | Asteroid Collision | Stack simulation | Medium |
+| 856 | Score of Parentheses | Stack | Medium |
+| 1249 | Minimum Remove to Make Valid | Stack + Set | Medium |
+
+### Monotonic Stack Problems
+| # | Problem | Pattern | Difficulty |
+|---|---------|---------|------------|
+| 496 | Next Greater Element I | Monotonic decreasing | Easy |
+| 503 | Next Greater Element II | Circular + monotonic | Medium |
+| 739 | Daily Temperatures | Monotonic decreasing | Medium |
+| 84 | Largest Rectangle in Histogram | Monotonic increasing | Hard |
+| 85 | Maximal Rectangle | Histogram per row | Hard |
+| 42 | Trapping Rain Water | Monotonic / Two pointers | Hard |
+| 901 | Online Stock Span | Monotonic decreasing | Medium |
+| 907 | Sum of Subarray Minimums | Monotonic + contribution | Medium |
+| 1019 | Next Greater Node In Linked List | Monotonic stack | Medium |
+| 402 | Remove K Digits | Monotonic increasing | Medium |
+
+### Tree Problems
+| # | Problem | Pattern | Difficulty |
+|---|---------|---------|------------|
+| 94 | Binary Tree Inorder Traversal | DFS iterative/recursive | Easy |
+| 144 | Binary Tree Preorder Traversal | DFS | Easy |
+| 145 | Binary Tree Postorder Traversal | DFS | Easy |
+| 102 | Binary Tree Level Order Traversal | BFS | Medium |
+| 107 | Binary Tree Level Order II | BFS + reverse | Medium |
+| 103 | Binary Tree Zigzag Level Order | BFS + flag | Medium |
+| 104 | Maximum Depth of Binary Tree | DFS | Easy |
+| 111 | Minimum Depth of Binary Tree | BFS/DFS | Easy |
+| 110 | Balanced Binary Tree | DFS with height | Easy |
+| 226 | Invert Binary Tree | DFS/BFS | Easy |
+| 101 | Symmetric Tree | DFS compare | Easy |
+| 100 | Same Tree | DFS compare | Easy |
+| 572 | Subtree of Another Tree | DFS + same tree | Easy |
+| 112 | Path Sum | DFS | Easy |
+| 113 | Path Sum II | DFS + backtrack | Medium |
+| 437 | Path Sum III | Prefix sum + DFS | Medium |
+| 124 | Binary Tree Maximum Path Sum | DFS post-order | Hard |
+| 543 | Diameter of Binary Tree | DFS with global max | Easy |
+| 236 | Lowest Common Ancestor | DFS | Medium |
+| 235 | LCA of BST | BST property | Medium |
+| 98 | Validate Binary Search Tree | DFS with range | Medium |
+| 230 | Kth Smallest Element in BST | Inorder + count | Medium |
+| 450 | Delete Node in BST | BST operations | Medium |
+| 701 | Insert into BST | BST operations | Medium |
+| 297 | Serialize and Deserialize | BFS/DFS | Hard |
+| 105 | Construct from Preorder and Inorder | Divide & conquer | Medium |
+| 106 | Construct from Inorder and Postorder | Divide & conquer | Medium |
+| 114 | Flatten Binary Tree to Linked List | Morris / Stack | Medium |
+| 199 | Binary Tree Right Side View | BFS / DFS | Medium |
+| 116 | Populating Next Right Pointers | BFS / O(1) space | Medium |
+| 222 | Count Complete Tree Nodes | Binary search | Medium |
+| 958 | Check Completeness | BFS | Medium |
+
+### Graph Problems
+| # | Problem | Pattern | Difficulty |
+|---|---------|---------|------------|
+| 200 | Number of Islands | DFS/BFS flood fill | Medium |
+| 695 | Max Area of Island | DFS/BFS | Medium |
+| 733 | Flood Fill | DFS/BFS | Easy |
+| 463 | Island Perimeter | Counting | Easy |
+| 547 | Number of Provinces | DFS/BFS/Union Find | Medium |
+| 130 | Surrounded Regions | DFS from boundary | Medium |
+| 417 | Pacific Atlantic Water Flow | Multi-source DFS | Medium |
+| 994 | Rotting Oranges | Multi-source BFS | Medium |
+| 286 | Walls and Gates | Multi-source BFS | Medium |
+| 127 | Word Ladder | BFS shortest path | Hard |
+| 126 | Word Ladder II | BFS + DFS backtrack | Hard |
+| 752 | Open the Lock | BFS | Medium |
+| 133 | Clone Graph | DFS/BFS + hash map | Medium |
+| 207 | Course Schedule | Topological sort (cycle) | Medium |
+| 210 | Course Schedule II | Topological sort (order) | Medium |
+| 269 | Alien Dictionary | Topological sort | Hard |
+| 310 | Minimum Height Trees | Topological (leaf removal) | Medium |
+| 802 | Find Eventual Safe States | Reverse topo / DFS | Medium |
+| 743 | Network Delay Time | Dijkstra | Medium |
+| 787 | Cheapest Flights Within K Stops | Bellman-Ford / BFS | Medium |
+| 1091 | Shortest Path in Binary Matrix | BFS | Medium |
+| 1584 | Min Cost to Connect All Points | Prim's / Kruskal's MST | Medium |
+| 684 | Redundant Connection | Union Find | Medium |
+| 685 | Redundant Connection II | Union Find (directed) | Hard |
+| 323 | Number of Connected Components | Union Find / DFS | Medium |
+| 261 | Graph Valid Tree | Union Find / DFS | Medium |
+| 990 | Satisfiability of Equality | Union Find | Medium |
+| 721 | Accounts Merge | Union Find + sort | Medium |
+| 1202 | Smallest String With Swaps | Union Find + sort | Medium |
+| 785 | Is Graph Bipartite | BFS/DFS coloring | Medium |
+| 886 | Possible Bipartition | BFS/DFS coloring | Medium |
+| 329 | Longest Increasing Path in Matrix | DFS + memo | Hard |
+| 79 | Word Search | DFS backtrack | Medium |
+| 212 | Word Search II | Trie + DFS | Hard |
+| 489 | Robot Room Cleaner | DFS + backtrack | Hard |
+
+### Heap/Priority Queue Problems
+| # | Problem | Pattern | Difficulty |
+|---|---------|---------|------------|
+| 215 | Kth Largest Element in Array | Quick select / Heap | Medium |
+| 347 | Top K Frequent Elements | Min heap of size K | Medium |
+| 692 | Top K Frequent Words | Min heap + comparator | Medium |
+| 703 | Kth Largest Element in Stream | Min heap | Easy |
+| 295 | Find Median from Data Stream | Two heaps | Hard |
+| 480 | Sliding Window Median | Two heaps + lazy delete | Hard |
+| 23 | Merge k Sorted Lists | Min heap | Hard |
+| 373 | Find K Pairs with Smallest Sums | Min heap | Medium |
+| 378 | Kth Smallest Element in Sorted Matrix | Min heap / BS | Medium |
+| 767 | Reorganize String | Max heap greedy | Medium |
+| 621 | Task Scheduler | Max heap / counting | Medium |
+| 358 | Rearrange String k Distance Apart | Max heap | Hard |
+| 1046 | Last Stone Weight | Max heap | Easy |
+| 973 | K Closest Points to Origin | Min/Max heap | Medium |
+| 1167 | Minimum Cost to Connect Sticks | Min heap | Medium |
+| 253 | Meeting Rooms II | Min heap / sweep line | Medium |
+| 630 | Course Schedule III | Max heap greedy | Hard |
+
+### Dynamic Programming Problems
+
+#### 1D DP (Linear)
+| # | Problem | Pattern | Difficulty |
+|---|---------|---------|------------|
+| 70 | Climbing Stairs | Fibonacci | Easy |
+| 509 | Fibonacci Number | Fibonacci | Easy |
+| 746 | Min Cost Climbing Stairs | Fibonacci variant | Easy |
+| 198 | House Robber | Linear DP | Medium |
+| 213 | House Robber II | Circular DP | Medium |
+| 337 | House Robber III | Tree DP | Medium |
+| 53 | Maximum Subarray | Kadane's | Medium |
+| 152 | Maximum Product Subarray | Track min/max | Medium |
+| 300 | Longest Increasing Subsequence | LIS | Medium |
+| 673 | Number of Longest Increasing Subsequence | LIS + count | Medium |
+| 1143 | Longest Common Subsequence | 2D DP | Medium |
+| 583 | Delete Operation for Two Strings | LCS variant | Medium |
+| 72 | Edit Distance | 2D DP | Medium |
+| 115 | Distinct Subsequences | 2D DP | Hard |
+| 97 | Interleaving String | 2D DP | Medium |
+
+#### Knapsack Pattern
+| # | Problem | Pattern | Difficulty |
+|---|---------|---------|------------|
+| 416 | Partition Equal Subset Sum | 0/1 Knapsack | Medium |
+| 494 | Target Sum | 0/1 Knapsack / Count | Medium |
+| 474 | Ones and Zeroes | 2D Knapsack | Medium |
+| 1049 | Last Stone Weight II | 0/1 Knapsack | Medium |
+| 322 | Coin Change | Unbounded Knapsack | Medium |
+| 518 | Coin Change II | Unbounded (count ways) | Medium |
+| 377 | Combination Sum IV | Unbounded (permutation) | Medium |
+| 279 | Perfect Squares | Unbounded Knapsack | Medium |
+
+#### String DP
+| # | Problem | Pattern | Difficulty |
+|---|---------|---------|------------|
+| 5 | Longest Palindromic Substring | Expand center / DP | Medium |
+| 647 | Palindromic Substrings | Expand center / DP | Medium |
+| 516 | Longest Palindromic Subsequence | 2D DP | Medium |
+| 1312 | Min Insertions for Palindrome | LPS variant | Hard |
+| 131 | Palindrome Partitioning | Backtrack + DP | Medium |
+| 132 | Palindrome Partitioning II | DP | Hard |
+| 139 | Word Break | DP + hash set | Medium |
+| 140 | Word Break II | DP + backtrack | Hard |
+| 10 | Regular Expression Matching | 2D DP | Hard |
+| 44 | Wildcard Matching | 2D DP | Hard |
+| 1035 | Uncrossed Lines | LCS | Medium |
+| 712 | Minimum ASCII Delete Sum | LCS variant | Medium |
+
+#### Grid DP
+| # | Problem | Pattern | Difficulty |
+|---|---------|---------|------------|
+| 62 | Unique Paths | Grid DP | Medium |
+| 63 | Unique Paths II | Grid DP + obstacles | Medium |
+| 64 | Minimum Path Sum | Grid DP | Medium |
+| 120 | Triangle | Grid DP | Medium |
+| 931 | Minimum Falling Path Sum | Grid DP | Medium |
+| 221 | Maximal Square | Grid DP | Medium |
+| 85 | Maximal Rectangle | Histogram + DP | Hard |
+| 174 | Dungeon Game | Reverse grid DP | Hard |
+| 741 | Cherry Pickup | 3D DP (two paths) | Hard |
+| 1463 | Cherry Pickup II | 3D DP | Hard |
+
+#### Interval DP
+| # | Problem | Pattern | Difficulty |
+|---|---------|---------|------------|
+| 516 | Longest Palindromic Subsequence | Interval DP | Medium |
+| 1000 | Minimum Cost to Merge Stones | Interval DP | Hard |
+| 312 | Burst Balloons | Interval DP | Hard |
+| 1547 | Minimum Cost to Cut a Stick | Interval DP | Hard |
+| 87 | Scramble String | Interval DP + memo | Hard |
+
+#### State Machine DP
+| # | Problem | Pattern | Difficulty |
+|---|---------|---------|------------|
+| 121 | Best Time to Buy and Sell Stock | Single transaction | Easy |
+| 122 | Best Time to Buy and Sell Stock II | Unlimited | Medium |
+| 123 | Best Time to Buy and Sell Stock III | 2 transactions | Hard |
+| 188 | Best Time to Buy and Sell Stock IV | K transactions | Hard |
+| 309 | Best Time with Cooldown | State machine | Medium |
+| 714 | Best Time with Transaction Fee | State machine | Medium |
+
+#### Other DP Patterns
+| # | Problem | Pattern | Difficulty |
+|---|---------|---------|------------|
+| 91 | Decode Ways | Linear DP | Medium |
+| 639 | Decode Ways II | Linear DP + wildcard | Hard |
+| 96 | Unique Binary Search Trees | Catalan numbers | Medium |
+| 95 | Unique Binary Search Trees II | Catalan + construct | Medium |
+| 343 | Integer Break | Math / DP | Medium |
+| 368 | Largest Divisible Subset | LIS variant | Medium |
+| 1048 | Longest String Chain | Hash + LIS | Medium |
+| 1027 | Longest Arithmetic Subsequence | 2D DP | Medium |
+| 264 | Ugly Number II | Multi-pointer DP | Medium |
+| 313 | Super Ugly Number | Heap / DP | Medium |
+| 354 | Russian Doll Envelopes | Sort + LIS | Hard |
+| 403 | Frog Jump | DP + hash set | Hard |
+| 818 | Race Car | BFS / DP | Hard |
+| 1478 | Allocate Mailboxes | Interval + memo | Hard |
+
+### Backtracking Problems
+| # | Problem | Pattern | Difficulty |
+|---|---------|---------|------------|
+| 46 | Permutations | Backtrack | Medium |
+| 47 | Permutations II | Backtrack + skip dups | Medium |
+| 78 | Subsets | Backtrack | Medium |
+| 90 | Subsets II | Backtrack + skip dups | Medium |
+| 39 | Combination Sum | Backtrack unlimited | Medium |
+| 40 | Combination Sum II | Backtrack once each | Medium |
+| 216 | Combination Sum III | Backtrack k numbers | Medium |
+| 77 | Combinations | Backtrack | Medium |
+| 17 | Letter Combinations of Phone | Backtrack | Medium |
+| 22 | Generate Parentheses | Backtrack | Medium |
+| 51 | N-Queens | Backtrack | Hard |
+| 52 | N-Queens II | Backtrack count | Hard |
+| 37 | Sudoku Solver | Backtrack | Hard |
+| 79 | Word Search | DFS backtrack | Medium |
+| 212 | Word Search II | Trie + backtrack | Hard |
+| 93 | Restore IP Addresses | Backtrack | Medium |
+| 131 | Palindrome Partitioning | Backtrack | Medium |
+| 698 | Partition to K Equal Sum Subsets | Backtrack + prune | Medium |
+
+### Interval Problems
+| # | Problem | Pattern | Difficulty |
+|---|---------|---------|------------|
+| 56 | Merge Intervals | Sort + merge | Medium |
+| 57 | Insert Interval | Binary search / linear | Medium |
+| 435 | Non-overlapping Intervals | Greedy (sort by end) | Medium |
+| 252 | Meeting Rooms | Sort + check | Easy |
+| 253 | Meeting Rooms II | Min heap / sweep | Medium |
+| 986 | Interval List Intersections | Two pointers | Medium |
+| 759 | Employee Free Time | Merge + heap | Hard |
+| 1288 | Remove Covered Intervals | Sort + greedy | Medium |
+
+### Trie Problems
+| # | Problem | Pattern | Difficulty |
+|---|---------|---------|------------|
+| 208 | Implement Trie | Basic Trie | Medium |
+| 211 | Design Add and Search Words | Trie + DFS | Medium |
+| 212 | Word Search II | Trie + backtrack | Hard |
+| 648 | Replace Words | Trie prefix | Medium |
+| 677 | Map Sum Pairs | Trie + value | Medium |
+| 720 | Longest Word in Dictionary | Trie + BFS/DFS | Medium |
+| 421 | Maximum XOR of Two Numbers | Bitwise Trie | Medium |
+| 1268 | Search Suggestions System | Trie + DFS | Medium |
+
+### Bit Manipulation Problems
+| # | Problem | Pattern | Difficulty |
+|---|---------|---------|------------|
+| 136 | Single Number | XOR | Easy |
+| 137 | Single Number II | Bit counting | Medium |
+| 260 | Single Number III | XOR + bit split | Medium |
+| 268 | Missing Number | XOR / Math | Easy |
+| 190 | Reverse Bits | Bit operations | Easy |
+| 191 | Number of 1 Bits | Brian Kernighan | Easy |
+| 338 | Counting Bits | DP + bit | Easy |
+| 371 | Sum of Two Integers | Bit manipulation | Medium |
+| 201 | Bitwise AND of Range | Bit shift | Medium |
+| 318 | Maximum Product of Word Lengths | Bit mask | Medium |
+
+---
+
+## Solution Descriptions for Key Algorithms
+
+### Array Solutions
+
+**Kadane's Algorithm (LC #53 Maximum Subarray)**
+- **Problem**: Find contiguous subarray with largest sum
+- **Approach**: Track current sum and global max. At each element, decide to extend current subarray or start fresh
+- **Key Insight**: `maxCurrent = max(arr[i], maxCurrent + arr[i])` - if adding current element makes sum worse than starting fresh, restart
+- **Time**: O(n), **Space**: O(1)
+
+**Dutch National Flag (LC #75 Sort Colors)**
+- **Problem**: Sort array containing only 0, 1, 2 in-place
+- **Approach**: Three pointers - low (0s boundary), mid (current), high (2s boundary)
+- **Key Insight**: Elements before low are 0s, after high are 2s, between low and mid are 1s
+- **Time**: O(n), **Space**: O(1)
+
+**Next Permutation (LC #31)**
+- **Problem**: Rearrange to next lexicographically greater permutation
+- **Approach**: (1) Find first decreasing from right (2) Find just larger element (3) Swap (4) Reverse suffix
+- **Key Insight**: The suffix after the swap point is in descending order, reversing gives smallest suffix
+- **Time**: O(n), **Space**: O(1)
+
+### Two Pointers Solutions
+
+**3Sum (LC #15)**
+- **Problem**: Find all triplets that sum to zero
+- **Approach**: Sort array, fix first element, use two pointers for remaining two
+- **Key Insight**: Skip duplicates to avoid repeated triplets
+- **Time**: O(n²), **Space**: O(1) excluding output
+
+**Container With Most Water (LC #11)**
+- **Problem**: Find two lines that hold most water
+- **Approach**: Two pointers at ends, move the shorter one inward
+- **Key Insight**: Moving shorter line might find taller one; moving taller never improves area
+- **Time**: O(n), **Space**: O(1)
+
+**Trapping Rain Water (LC #42)**
+- **Problem**: Calculate trapped water after rain
+- **Approach**: Two pointers with left_max and right_max tracking
+- **Key Insight**: Water at position = min(left_max, right_max) - height[i]
+- **Time**: O(n), **Space**: O(1)
+
+### Sliding Window Solutions
+
+**Longest Substring Without Repeating (LC #3)**
+- **Problem**: Find longest substring with unique characters
+- **Approach**: Expand right, shrink left when duplicate found using set/map
+- **Key Insight**: Maintain window invariant: no duplicates in current window
+- **Time**: O(n), **Space**: O(min(n, alphabet_size))
+
+**Minimum Window Substring (LC #76)**
+- **Problem**: Find minimum window containing all chars of t
+- **Approach**: Expand to satisfy, contract to minimize while valid
+- **Key Insight**: Use "formed" counter to track when window is valid
+- **Time**: O(s + t), **Space**: O(s + t)
+
+### Binary Search Solutions
+
+**Search in Rotated Sorted Array (LC #33)**
+- **Problem**: Search in rotated sorted array
+- **Approach**: Determine which half is sorted, decide which half to search
+- **Key Insight**: One half is always sorted; check if target is in sorted half
+- **Time**: O(log n), **Space**: O(1)
+
+**Binary Search on Answer (LC #875 Koko Eating Bananas)**
+- **Problem**: Find minimum eating speed to finish in H hours
+- **Approach**: Binary search on speed from 1 to max(piles)
+- **Key Insight**: Monotonic property - if speed K works, K+1 also works
+- **Time**: O(n log m) where m is max pile, **Space**: O(1)
+
+### Linked List Solutions
+
+**Reverse Linked List (LC #206)**
+- **Problem**: Reverse singly linked list
+- **Approach**: Iterative with prev/curr/next pointers or recursive
+- **Key Insight**: Save next, reverse pointer, advance
+- **Time**: O(n), **Space**: O(1) iterative, O(n) recursive
+
+**Detect Cycle II (LC #142)**
+- **Problem**: Find cycle start node
+- **Approach**: Floyd's algorithm - fast/slow meet, then slow from head
+- **Key Insight**: Distance from head to cycle start = distance from meeting point to cycle start
+- **Time**: O(n), **Space**: O(1)
+
+### Tree Solutions
+
+**Lowest Common Ancestor (LC #236)**
+- **Problem**: Find LCA of two nodes
+- **Approach**: DFS - return node if found, propagate up
+- **Key Insight**: If both children return non-null, current node is LCA
+- **Time**: O(n), **Space**: O(h)
+
+**Binary Tree Maximum Path Sum (LC #124)**
+- **Problem**: Find max path sum (any path)
+- **Approach**: Post-order DFS, track global max
+- **Key Insight**: At each node: max single path = node + max(left, right, 0); update global with node + left + right
+- **Time**: O(n), **Space**: O(h)
+
+**Validate BST (LC #98)**
+- **Problem**: Check if valid BST
+- **Approach**: DFS with valid range [min, max] for each node
+- **Key Insight**: Left subtree < node < right subtree must hold recursively
+- **Time**: O(n), **Space**: O(h)
+
+### Graph Solutions
+
+**Number of Islands (LC #200)**
+- **Problem**: Count islands in 2D grid
+- **Approach**: DFS/BFS from each '1', mark visited
+- **Key Insight**: Each DFS/BFS explores one complete island
+- **Time**: O(m*n), **Space**: O(m*n)
+
+**Course Schedule (LC #207)**
+- **Problem**: Detect if all courses can be finished (cycle detection)
+- **Approach**: Topological sort - if all nodes processed, no cycle
+- **Key Insight**: Use indegree count; nodes with 0 indegree can be taken
+- **Time**: O(V + E), **Space**: O(V + E)
+
+**Dijkstra's Algorithm (LC #743 Network Delay Time)**
+- **Problem**: Shortest path from source to all nodes
+- **Approach**: Priority queue with (distance, node), greedy selection
+- **Key Insight**: Always process minimum distance node; once processed, distance is final
+- **Time**: O((V + E) log V), **Space**: O(V + E)
+
+**Clone Graph (LC #133)**
+- **Problem**: Deep copy a graph
+- **Approach**: DFS/BFS with hash map to track cloned nodes
+- **Key Insight**: Map original -> clone to avoid duplicates
+- **Time**: O(V + E), **Space**: O(V)
+
+**Word Ladder (LC #127)**
+- **Problem**: Find shortest transformation sequence
+- **Approach**: BFS - each word is node, edges to words differing by 1 char
+- **Key Insight**: BFS guarantees shortest path in unweighted graph
+- **Time**: O(M² * N) where M=word length, N=word count, **Space**: O(M * N)
+
+### DP Solutions
+
+**Coin Change (LC #322)**
+- **Problem**: Minimum coins to make amount
+- **Approach**: dp[i] = min coins for amount i
+- **Key Insight**: dp[i] = min(dp[i], dp[i-coin] + 1) for each coin
+- **Time**: O(amount * coins), **Space**: O(amount)
+
+**Longest Increasing Subsequence (LC #300)**
+- **Problem**: Find LIS length
+- **Approach**: O(n²): dp[i] = LIS ending at i; O(n log n): binary search on tails array
+- **Key Insight**: tails[i] = smallest tail of LIS of length i+1
+- **Time**: O(n log n), **Space**: O(n)
+
+**Edit Distance (LC #72)**
+- **Problem**: Min operations to convert word1 to word2
+- **Approach**: dp[i][j] = edit distance for word1[0..i] and word2[0..j]
+- **Key Insight**: If chars match, dp[i][j] = dp[i-1][j-1]; else min(insert, delete, replace) + 1
+- **Time**: O(m*n), **Space**: O(m*n) or O(n) optimized
+
+**0/1 Knapsack (LC #416 Partition Equal Subset Sum)**
+- **Problem**: Can partition array into two equal sum subsets?
+- **Approach**: dp[j] = can we achieve sum j?
+- **Key Insight**: Traverse amount in reverse to avoid using same element twice
+- **Time**: O(n * sum), **Space**: O(sum)
+
+**Longest Common Subsequence (LC #1143)**
+- **Problem**: Find LCS length of two strings
+- **Approach**: dp[i][j] = LCS of text1[0..i] and text2[0..j]
+- **Key Insight**: If chars match, dp[i][j] = dp[i-1][j-1] + 1; else max(dp[i-1][j], dp[i][j-1])
+- **Time**: O(m*n), **Space**: O(m*n) or O(n) optimized
+
+**Word Break (LC #139)**
+- **Problem**: Can string be segmented into dictionary words?
+- **Approach**: dp[i] = can s[0..i] be segmented?
+- **Key Insight**: dp[i] = true if dp[j] && s[j..i] in dict for some j
+- **Time**: O(n³) or O(n² * m), **Space**: O(n)
+
+### Heap Solutions
+
+**Top K Frequent Elements (LC #347)**
+- **Problem**: Find k most frequent elements
+- **Approach**: Min heap of size k on frequency
+- **Key Insight**: Keep min heap of size k; smallest frequency is evicted first
+- **Time**: O(n log k), **Space**: O(n)
+
+**Find Median from Data Stream (LC #295)**
+- **Problem**: Support addNum() and findMedian()
+- **Approach**: Max heap for lower half, min heap for upper half
+- **Key Insight**: Balance heaps so maxHeap.size >= minHeap.size; median is maxHeap.top or average
+- **Time**: O(log n) add, O(1) find, **Space**: O(n)
+
+**Merge K Sorted Lists (LC #23)**
+- **Problem**: Merge k sorted linked lists
+- **Approach**: Min heap with one node from each list
+- **Key Insight**: Always extract min, add its next node to heap
+- **Time**: O(n log k), **Space**: O(k)
+
+### Monotonic Stack Solutions
+
+**Daily Temperatures (LC #739)**
+- **Problem**: Days until warmer temperature
+- **Approach**: Monotonic decreasing stack of indices
+- **Key Insight**: When popping, current temp is the answer for popped index
+- **Time**: O(n), **Space**: O(n)
+
+**Largest Rectangle in Histogram (LC #84)**
+- **Problem**: Find largest rectangle area
+- **Approach**: Monotonic increasing stack
+- **Key Insight**: When popping (smaller bar found), calculate area with popped bar as height
+- **Time**: O(n), **Space**: O(n)
+
+### Union Find Solutions
+
+**Number of Connected Components (LC #323)**
+- **Problem**: Count connected components
+- **Approach**: Union Find with path compression and union by rank
+- **Key Insight**: Each successful union reduces component count by 1
+- **Time**: O(n * α(n)) ≈ O(n), **Space**: O(n)
+
+**Smallest String With Swaps (LC #1202)**
+- **Problem**: Lexicographically smallest string after swaps
+- **Approach**: Union Find to group swappable indices, sort chars within group
+- **Key Insight**: Transitive property - if (a,b) and (b,c) swappable, (a,c) also swappable
+- **Time**: O(n log n), **Space**: O(n)
