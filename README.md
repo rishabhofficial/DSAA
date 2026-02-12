@@ -4029,3 +4029,3649 @@ string alienOrder(vector<string>& words) {
 - **Approach**: Union Find to group swappable indices, sort chars within group
 - **Key Insight**: Transitive property - if (a,b) and (b,c) swappable, (a,c) also swappable
 - **Time**: O(n log n), **Space**: O(n)
+
+---
+
+## Complete LeetCode Solutions (C++11)
+
+### Array Solutions
+
+#### LC #53 - Maximum Subarray (Kadane's Algorithm)
+```cpp
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+        int maxCurrent = nums[0];
+        int maxGlobal = nums[0];
+
+        for (int i = 1; i < nums.size(); i++) {
+            maxCurrent = max(nums[i], maxCurrent + nums[i]);
+            maxGlobal = max(maxGlobal, maxCurrent);
+        }
+
+        return maxGlobal;
+    }
+};
+```
+
+#### LC #121 - Best Time to Buy and Sell Stock
+```cpp
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int minPrice = INT_MAX;
+        int maxProfit = 0;
+
+        for (int price : prices) {
+            minPrice = min(minPrice, price);
+            maxProfit = max(maxProfit, price - minPrice);
+        }
+
+        return maxProfit;
+    }
+};
+```
+
+#### LC #152 - Maximum Product Subarray
+```cpp
+class Solution {
+public:
+    int maxProduct(vector<int>& nums) {
+        int maxProd = nums[0];
+        int minProd = nums[0];
+        int result = nums[0];
+
+        for (int i = 1; i < nums.size(); i++) {
+            if (nums[i] < 0) swap(maxProd, minProd);
+
+            maxProd = max(nums[i], maxProd * nums[i]);
+            minProd = min(nums[i], minProd * nums[i]);
+
+            result = max(result, maxProd);
+        }
+
+        return result;
+    }
+};
+```
+
+#### LC #238 - Product of Array Except Self
+```cpp
+class Solution {
+public:
+    vector<int> productExceptSelf(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> result(n, 1);
+
+        // Left products
+        int leftProd = 1;
+        for (int i = 0; i < n; i++) {
+            result[i] = leftProd;
+            leftProd *= nums[i];
+        }
+
+        // Right products
+        int rightProd = 1;
+        for (int i = n - 1; i >= 0; i--) {
+            result[i] *= rightProd;
+            rightProd *= nums[i];
+        }
+
+        return result;
+    }
+};
+```
+
+#### LC #41 - First Missing Positive
+```cpp
+class Solution {
+public:
+    int firstMissingPositive(vector<int>& nums) {
+        int n = nums.size();
+
+        // Place each number at its correct index (nums[i] should be at index nums[i]-1)
+        for (int i = 0; i < n; i++) {
+            while (nums[i] > 0 && nums[i] <= n && nums[nums[i] - 1] != nums[i]) {
+                swap(nums[i], nums[nums[i] - 1]);
+            }
+        }
+
+        // Find first position where nums[i] != i + 1
+        for (int i = 0; i < n; i++) {
+            if (nums[i] != i + 1) return i + 1;
+        }
+
+        return n + 1;
+    }
+};
+```
+
+#### LC #287 - Find the Duplicate Number
+```cpp
+class Solution {
+public:
+    int findDuplicate(vector<int>& nums) {
+        // Floyd's cycle detection
+        int slow = nums[0];
+        int fast = nums[0];
+
+        do {
+            slow = nums[slow];
+            fast = nums[nums[fast]];
+        } while (slow != fast);
+
+        slow = nums[0];
+        while (slow != fast) {
+            slow = nums[slow];
+            fast = nums[fast];
+        }
+
+        return slow;
+    }
+};
+```
+
+#### LC #169 - Majority Element (Boyer-Moore Voting)
+```cpp
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) {
+        int candidate = 0;
+        int count = 0;
+
+        for (int num : nums) {
+            if (count == 0) {
+                candidate = num;
+            }
+            count += (num == candidate) ? 1 : -1;
+        }
+
+        return candidate;
+    }
+};
+```
+
+#### LC #229 - Majority Element II
+```cpp
+class Solution {
+public:
+    vector<int> majorityElement(vector<int>& nums) {
+        int cand1 = 0, cand2 = 1;
+        int count1 = 0, count2 = 0;
+
+        // Find candidates
+        for (int num : nums) {
+            if (num == cand1) {
+                count1++;
+            } else if (num == cand2) {
+                count2++;
+            } else if (count1 == 0) {
+                cand1 = num;
+                count1 = 1;
+            } else if (count2 == 0) {
+                cand2 = num;
+                count2 = 1;
+            } else {
+                count1--;
+                count2--;
+            }
+        }
+
+        // Verify candidates
+        count1 = count2 = 0;
+        for (int num : nums) {
+            if (num == cand1) count1++;
+            else if (num == cand2) count2++;
+        }
+
+        vector<int> result;
+        int n = nums.size();
+        if (count1 > n / 3) result.push_back(cand1);
+        if (count2 > n / 3) result.push_back(cand2);
+
+        return result;
+    }
+};
+```
+
+#### LC #189 - Rotate Array
+```cpp
+class Solution {
+public:
+    void rotate(vector<int>& nums, int k) {
+        int n = nums.size();
+        k = k % n;
+
+        reverse(nums.begin(), nums.end());
+        reverse(nums.begin(), nums.begin() + k);
+        reverse(nums.begin() + k, nums.end());
+    }
+};
+```
+
+### Two Pointers Solutions
+
+#### LC #1 - Two Sum
+```cpp
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        unordered_map<int, int> map;
+
+        for (int i = 0; i < nums.size(); i++) {
+            int complement = target - nums[i];
+            if (map.count(complement)) {
+                return {map[complement], i};
+            }
+            map[nums[i]] = i;
+        }
+
+        return {};
+    }
+};
+```
+
+#### LC #167 - Two Sum II (Sorted Array)
+```cpp
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& numbers, int target) {
+        int left = 0, right = numbers.size() - 1;
+
+        while (left < right) {
+            int sum = numbers[left] + numbers[right];
+            if (sum == target) {
+                return {left + 1, right + 1};
+            } else if (sum < target) {
+                left++;
+            } else {
+                right--;
+            }
+        }
+
+        return {};
+    }
+};
+```
+
+#### LC #15 - 3Sum
+```cpp
+class Solution {
+public:
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        vector<vector<int>> result;
+        sort(nums.begin(), nums.end());
+        int n = nums.size();
+
+        for (int i = 0; i < n - 2; i++) {
+            if (i > 0 && nums[i] == nums[i - 1]) continue;
+
+            int left = i + 1, right = n - 1;
+
+            while (left < right) {
+                int sum = nums[i] + nums[left] + nums[right];
+
+                if (sum == 0) {
+                    result.push_back({nums[i], nums[left], nums[right]});
+                    while (left < right && nums[left] == nums[left + 1]) left++;
+                    while (left < right && nums[right] == nums[right - 1]) right--;
+                    left++;
+                    right--;
+                } else if (sum < 0) {
+                    left++;
+                } else {
+                    right--;
+                }
+            }
+        }
+
+        return result;
+    }
+};
+```
+
+#### LC #16 - 3Sum Closest
+```cpp
+class Solution {
+public:
+    int threeSumClosest(vector<int>& nums, int target) {
+        sort(nums.begin(), nums.end());
+        int n = nums.size();
+        int closest = nums[0] + nums[1] + nums[2];
+
+        for (int i = 0; i < n - 2; i++) {
+            int left = i + 1, right = n - 1;
+
+            while (left < right) {
+                int sum = nums[i] + nums[left] + nums[right];
+
+                if (abs(sum - target) < abs(closest - target)) {
+                    closest = sum;
+                }
+
+                if (sum < target) {
+                    left++;
+                } else if (sum > target) {
+                    right--;
+                } else {
+                    return target;
+                }
+            }
+        }
+
+        return closest;
+    }
+};
+```
+
+#### LC #11 - Container With Most Water
+```cpp
+class Solution {
+public:
+    int maxArea(vector<int>& height) {
+        int left = 0, right = height.size() - 1;
+        int maxWater = 0;
+
+        while (left < right) {
+            int h = min(height[left], height[right]);
+            int w = right - left;
+            maxWater = max(maxWater, h * w);
+
+            if (height[left] < height[right]) {
+                left++;
+            } else {
+                right--;
+            }
+        }
+
+        return maxWater;
+    }
+};
+```
+
+#### LC #42 - Trapping Rain Water
+```cpp
+class Solution {
+public:
+    int trap(vector<int>& height) {
+        int left = 0, right = height.size() - 1;
+        int leftMax = 0, rightMax = 0;
+        int water = 0;
+
+        while (left < right) {
+            if (height[left] < height[right]) {
+                if (height[left] >= leftMax) {
+                    leftMax = height[left];
+                } else {
+                    water += leftMax - height[left];
+                }
+                left++;
+            } else {
+                if (height[right] >= rightMax) {
+                    rightMax = height[right];
+                } else {
+                    water += rightMax - height[right];
+                }
+                right--;
+            }
+        }
+
+        return water;
+    }
+};
+```
+
+#### LC #125 - Valid Palindrome
+```cpp
+class Solution {
+public:
+    bool isPalindrome(string s) {
+        int left = 0, right = s.length() - 1;
+
+        while (left < right) {
+            while (left < right && !isalnum(s[left])) left++;
+            while (left < right && !isalnum(s[right])) right--;
+
+            if (tolower(s[left]) != tolower(s[right])) {
+                return false;
+            }
+
+            left++;
+            right--;
+        }
+
+        return true;
+    }
+};
+```
+
+#### LC #26 - Remove Duplicates from Sorted Array
+```cpp
+class Solution {
+public:
+    int removeDuplicates(vector<int>& nums) {
+        if (nums.empty()) return 0;
+
+        int slow = 0;
+        for (int fast = 1; fast < nums.size(); fast++) {
+            if (nums[fast] != nums[slow]) {
+                slow++;
+                nums[slow] = nums[fast];
+            }
+        }
+
+        return slow + 1;
+    }
+};
+```
+
+#### LC #283 - Move Zeroes
+```cpp
+class Solution {
+public:
+    void moveZeroes(vector<int>& nums) {
+        int slow = 0;
+
+        for (int fast = 0; fast < nums.size(); fast++) {
+            if (nums[fast] != 0) {
+                swap(nums[slow], nums[fast]);
+                slow++;
+            }
+        }
+    }
+};
+```
+
+#### LC #88 - Merge Sorted Array
+```cpp
+class Solution {
+public:
+    void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
+        int i = m - 1, j = n - 1, k = m + n - 1;
+
+        while (i >= 0 && j >= 0) {
+            if (nums1[i] > nums2[j]) {
+                nums1[k--] = nums1[i--];
+            } else {
+                nums1[k--] = nums2[j--];
+            }
+        }
+
+        while (j >= 0) {
+            nums1[k--] = nums2[j--];
+        }
+    }
+};
+```
+
+### Sliding Window Solutions
+
+#### LC #3 - Longest Substring Without Repeating Characters
+```cpp
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        unordered_set<char> chars;
+        int maxLen = 0;
+        int left = 0;
+
+        for (int right = 0; right < s.length(); right++) {
+            while (chars.count(s[right])) {
+                chars.erase(s[left]);
+                left++;
+            }
+            chars.insert(s[right]);
+            maxLen = max(maxLen, right - left + 1);
+        }
+
+        return maxLen;
+    }
+};
+```
+
+#### LC #76 - Minimum Window Substring
+```cpp
+class Solution {
+public:
+    string minWindow(string s, string t) {
+        unordered_map<char, int> need, have;
+
+        for (char c : t) need[c]++;
+
+        int required = need.size();
+        int formed = 0;
+        int minLen = INT_MAX;
+        int minStart = 0;
+        int left = 0;
+
+        for (int right = 0; right < s.length(); right++) {
+            char c = s[right];
+            have[c]++;
+
+            if (need.count(c) && have[c] == need[c]) {
+                formed++;
+            }
+
+            while (formed == required) {
+                if (right - left + 1 < minLen) {
+                    minLen = right - left + 1;
+                    minStart = left;
+                }
+
+                char leftChar = s[left];
+                have[leftChar]--;
+
+                if (need.count(leftChar) && have[leftChar] < need[leftChar]) {
+                    formed--;
+                }
+
+                left++;
+            }
+        }
+
+        return minLen == INT_MAX ? "" : s.substr(minStart, minLen);
+    }
+};
+```
+
+#### LC #209 - Minimum Size Subarray Sum
+```cpp
+class Solution {
+public:
+    int minSubArrayLen(int target, vector<int>& nums) {
+        int minLen = INT_MAX;
+        int sum = 0;
+        int left = 0;
+
+        for (int right = 0; right < nums.size(); right++) {
+            sum += nums[right];
+
+            while (sum >= target) {
+                minLen = min(minLen, right - left + 1);
+                sum -= nums[left];
+                left++;
+            }
+        }
+
+        return minLen == INT_MAX ? 0 : minLen;
+    }
+};
+```
+
+#### LC #424 - Longest Repeating Character Replacement
+```cpp
+class Solution {
+public:
+    int characterReplacement(string s, int k) {
+        vector<int> count(26, 0);
+        int maxCount = 0;
+        int maxLen = 0;
+        int left = 0;
+
+        for (int right = 0; right < s.length(); right++) {
+            count[s[right] - 'A']++;
+            maxCount = max(maxCount, count[s[right] - 'A']);
+
+            // Window size - maxCount = chars to replace
+            while (right - left + 1 - maxCount > k) {
+                count[s[left] - 'A']--;
+                left++;
+            }
+
+            maxLen = max(maxLen, right - left + 1);
+        }
+
+        return maxLen;
+    }
+};
+```
+
+#### LC #567 - Permutation in String
+```cpp
+class Solution {
+public:
+    bool checkInclusion(string s1, string s2) {
+        if (s1.length() > s2.length()) return false;
+
+        vector<int> s1Count(26, 0), s2Count(26, 0);
+
+        for (int i = 0; i < s1.length(); i++) {
+            s1Count[s1[i] - 'a']++;
+            s2Count[s2[i] - 'a']++;
+        }
+
+        if (s1Count == s2Count) return true;
+
+        for (int i = s1.length(); i < s2.length(); i++) {
+            s2Count[s2[i] - 'a']++;
+            s2Count[s2[i - s1.length()] - 'a']--;
+
+            if (s1Count == s2Count) return true;
+        }
+
+        return false;
+    }
+};
+```
+
+#### LC #438 - Find All Anagrams in a String
+```cpp
+class Solution {
+public:
+    vector<int> findAnagrams(string s, string p) {
+        vector<int> result;
+        if (s.length() < p.length()) return result;
+
+        vector<int> pCount(26, 0), sCount(26, 0);
+
+        for (int i = 0; i < p.length(); i++) {
+            pCount[p[i] - 'a']++;
+            sCount[s[i] - 'a']++;
+        }
+
+        if (pCount == sCount) result.push_back(0);
+
+        for (int i = p.length(); i < s.length(); i++) {
+            sCount[s[i] - 'a']++;
+            sCount[s[i - p.length()] - 'a']--;
+
+            if (pCount == sCount) result.push_back(i - p.length() + 1);
+        }
+
+        return result;
+    }
+};
+```
+
+#### LC #239 - Sliding Window Maximum
+```cpp
+class Solution {
+public:
+    vector<int> maxSlidingWindow(vector<int>& nums, int k) {
+        deque<int> dq;  // Store indices
+        vector<int> result;
+
+        for (int i = 0; i < nums.size(); i++) {
+            // Remove indices outside window
+            while (!dq.empty() && dq.front() <= i - k) {
+                dq.pop_front();
+            }
+
+            // Remove smaller elements (they'll never be max)
+            while (!dq.empty() && nums[dq.back()] < nums[i]) {
+                dq.pop_back();
+            }
+
+            dq.push_back(i);
+
+            if (i >= k - 1) {
+                result.push_back(nums[dq.front()]);
+            }
+        }
+
+        return result;
+    }
+};
+```
+
+### Binary Search Solutions
+
+#### LC #704 - Binary Search
+```cpp
+class Solution {
+public:
+    int search(vector<int>& nums, int target) {
+        int left = 0, right = nums.size() - 1;
+
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+
+            if (nums[mid] == target) {
+                return mid;
+            } else if (nums[mid] < target) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+
+        return -1;
+    }
+};
+```
+
+#### LC #33 - Search in Rotated Sorted Array
+```cpp
+class Solution {
+public:
+    int search(vector<int>& nums, int target) {
+        int left = 0, right = nums.size() - 1;
+
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+
+            if (nums[mid] == target) return mid;
+
+            // Left half is sorted
+            if (nums[left] <= nums[mid]) {
+                if (target >= nums[left] && target < nums[mid]) {
+                    right = mid - 1;
+                } else {
+                    left = mid + 1;
+                }
+            }
+            // Right half is sorted
+            else {
+                if (target > nums[mid] && target <= nums[right]) {
+                    left = mid + 1;
+                } else {
+                    right = mid - 1;
+                }
+            }
+        }
+
+        return -1;
+    }
+};
+```
+
+#### LC #153 - Find Minimum in Rotated Sorted Array
+```cpp
+class Solution {
+public:
+    int findMin(vector<int>& nums) {
+        int left = 0, right = nums.size() - 1;
+
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+
+            if (nums[mid] > nums[right]) {
+                left = mid + 1;
+            } else {
+                right = mid;
+            }
+        }
+
+        return nums[left];
+    }
+};
+```
+
+#### LC #34 - Find First and Last Position
+```cpp
+class Solution {
+public:
+    vector<int> searchRange(vector<int>& nums, int target) {
+        return {findFirst(nums, target), findLast(nums, target)};
+    }
+
+private:
+    int findFirst(vector<int>& nums, int target) {
+        int left = 0, right = nums.size() - 1;
+        int result = -1;
+
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+
+            if (nums[mid] == target) {
+                result = mid;
+                right = mid - 1;  // Keep searching left
+            } else if (nums[mid] < target) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+
+        return result;
+    }
+
+    int findLast(vector<int>& nums, int target) {
+        int left = 0, right = nums.size() - 1;
+        int result = -1;
+
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+
+            if (nums[mid] == target) {
+                result = mid;
+                left = mid + 1;  // Keep searching right
+            } else if (nums[mid] < target) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+
+        return result;
+    }
+};
+```
+
+#### LC #162 - Find Peak Element
+```cpp
+class Solution {
+public:
+    int findPeakElement(vector<int>& nums) {
+        int left = 0, right = nums.size() - 1;
+
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+
+            if (nums[mid] > nums[mid + 1]) {
+                right = mid;
+            } else {
+                left = mid + 1;
+            }
+        }
+
+        return left;
+    }
+};
+```
+
+#### LC #875 - Koko Eating Bananas
+```cpp
+class Solution {
+public:
+    int minEatingSpeed(vector<int>& piles, int h) {
+        int left = 1;
+        int right = *max_element(piles.begin(), piles.end());
+
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+
+            if (canFinish(piles, h, mid)) {
+                right = mid;
+            } else {
+                left = mid + 1;
+            }
+        }
+
+        return left;
+    }
+
+private:
+    bool canFinish(vector<int>& piles, int h, int speed) {
+        long hours = 0;
+        for (int pile : piles) {
+            hours += (pile + speed - 1) / speed;  // Ceiling division
+        }
+        return hours <= h;
+    }
+};
+```
+
+#### LC #1011 - Capacity To Ship Packages
+```cpp
+class Solution {
+public:
+    int shipWithinDays(vector<int>& weights, int days) {
+        int left = *max_element(weights.begin(), weights.end());
+        int right = accumulate(weights.begin(), weights.end(), 0);
+
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+
+            if (canShip(weights, days, mid)) {
+                right = mid;
+            } else {
+                left = mid + 1;
+            }
+        }
+
+        return left;
+    }
+
+private:
+    bool canShip(vector<int>& weights, int days, int capacity) {
+        int daysNeeded = 1;
+        int currentLoad = 0;
+
+        for (int w : weights) {
+            if (currentLoad + w > capacity) {
+                daysNeeded++;
+                currentLoad = 0;
+            }
+            currentLoad += w;
+        }
+
+        return daysNeeded <= days;
+    }
+};
+```
+
+#### LC #74 - Search a 2D Matrix
+```cpp
+class Solution {
+public:
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        int m = matrix.size(), n = matrix[0].size();
+        int left = 0, right = m * n - 1;
+
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            int val = matrix[mid / n][mid % n];
+
+            if (val == target) {
+                return true;
+            } else if (val < target) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+
+        return false;
+    }
+};
+```
+
+#### LC #240 - Search a 2D Matrix II
+```cpp
+class Solution {
+public:
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        int m = matrix.size(), n = matrix[0].size();
+        int row = 0, col = n - 1;
+
+        while (row < m && col >= 0) {
+            if (matrix[row][col] == target) {
+                return true;
+            } else if (matrix[row][col] > target) {
+                col--;
+            } else {
+                row++;
+            }
+        }
+
+        return false;
+    }
+};
+```
+
+### Linked List Solutions
+
+#### LC #206 - Reverse Linked List
+```cpp
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head) {
+        ListNode* prev = nullptr;
+        ListNode* curr = head;
+
+        while (curr) {
+            ListNode* next = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = next;
+        }
+
+        return prev;
+    }
+
+    // Recursive version
+    ListNode* reverseListRecursive(ListNode* head) {
+        if (!head || !head->next) return head;
+
+        ListNode* newHead = reverseListRecursive(head->next);
+        head->next->next = head;
+        head->next = nullptr;
+
+        return newHead;
+    }
+};
+```
+
+#### LC #92 - Reverse Linked List II
+```cpp
+class Solution {
+public:
+    ListNode* reverseBetween(ListNode* head, int left, int right) {
+        ListNode dummy(0);
+        dummy.next = head;
+        ListNode* prev = &dummy;
+
+        // Move to position before left
+        for (int i = 1; i < left; i++) {
+            prev = prev->next;
+        }
+
+        ListNode* curr = prev->next;
+
+        // Reverse from left to right
+        for (int i = 0; i < right - left; i++) {
+            ListNode* temp = curr->next;
+            curr->next = temp->next;
+            temp->next = prev->next;
+            prev->next = temp;
+        }
+
+        return dummy.next;
+    }
+};
+```
+
+#### LC #25 - Reverse Nodes in k-Group
+```cpp
+class Solution {
+public:
+    ListNode* reverseKGroup(ListNode* head, int k) {
+        ListNode dummy(0);
+        dummy.next = head;
+        ListNode* prevGroupEnd = &dummy;
+
+        while (true) {
+            ListNode* kthNode = getKthNode(prevGroupEnd, k);
+            if (!kthNode) break;
+
+            ListNode* nextGroupStart = kthNode->next;
+            ListNode* curr = prevGroupEnd->next;
+            ListNode* prev = nextGroupStart;
+
+            // Reverse k nodes
+            while (curr != nextGroupStart) {
+                ListNode* temp = curr->next;
+                curr->next = prev;
+                prev = curr;
+                curr = temp;
+            }
+
+            ListNode* temp = prevGroupEnd->next;
+            prevGroupEnd->next = kthNode;
+            prevGroupEnd = temp;
+        }
+
+        return dummy.next;
+    }
+
+private:
+    ListNode* getKthNode(ListNode* curr, int k) {
+        while (curr && k > 0) {
+            curr = curr->next;
+            k--;
+        }
+        return curr;
+    }
+};
+```
+
+#### LC #141 - Linked List Cycle
+```cpp
+class Solution {
+public:
+    bool hasCycle(ListNode* head) {
+        ListNode *slow = head, *fast = head;
+
+        while (fast && fast->next) {
+            slow = slow->next;
+            fast = fast->next->next;
+            if (slow == fast) return true;
+        }
+
+        return false;
+    }
+};
+```
+
+#### LC #142 - Linked List Cycle II
+```cpp
+class Solution {
+public:
+    ListNode* detectCycle(ListNode* head) {
+        ListNode *slow = head, *fast = head;
+
+        while (fast && fast->next) {
+            slow = slow->next;
+            fast = fast->next->next;
+
+            if (slow == fast) {
+                slow = head;
+                while (slow != fast) {
+                    slow = slow->next;
+                    fast = fast->next;
+                }
+                return slow;
+            }
+        }
+
+        return nullptr;
+    }
+};
+```
+
+#### LC #19 - Remove Nth Node From End
+```cpp
+class Solution {
+public:
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        ListNode dummy(0);
+        dummy.next = head;
+        ListNode *fast = &dummy, *slow = &dummy;
+
+        // Move fast n+1 steps ahead
+        for (int i = 0; i <= n; i++) {
+            fast = fast->next;
+        }
+
+        // Move both until fast reaches end
+        while (fast) {
+            slow = slow->next;
+            fast = fast->next;
+        }
+
+        // Remove the nth node
+        slow->next = slow->next->next;
+
+        return dummy.next;
+    }
+};
+```
+
+#### LC #21 - Merge Two Sorted Lists
+```cpp
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
+        ListNode dummy(0);
+        ListNode* curr = &dummy;
+
+        while (l1 && l2) {
+            if (l1->val < l2->val) {
+                curr->next = l1;
+                l1 = l1->next;
+            } else {
+                curr->next = l2;
+                l2 = l2->next;
+            }
+            curr = curr->next;
+        }
+
+        curr->next = l1 ? l1 : l2;
+        return dummy.next;
+    }
+};
+```
+
+#### LC #23 - Merge k Sorted Lists
+```cpp
+class Solution {
+public:
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        auto cmp = [](ListNode* a, ListNode* b) {
+            return a->val > b->val;
+        };
+        priority_queue<ListNode*, vector<ListNode*>, decltype(cmp)> pq(cmp);
+
+        for (ListNode* list : lists) {
+            if (list) pq.push(list);
+        }
+
+        ListNode dummy(0);
+        ListNode* curr = &dummy;
+
+        while (!pq.empty()) {
+            ListNode* node = pq.top();
+            pq.pop();
+
+            curr->next = node;
+            curr = curr->next;
+
+            if (node->next) pq.push(node->next);
+        }
+
+        return dummy.next;
+    }
+};
+```
+
+#### LC #143 - Reorder List
+```cpp
+class Solution {
+public:
+    void reorderList(ListNode* head) {
+        if (!head || !head->next) return;
+
+        // Find middle
+        ListNode *slow = head, *fast = head;
+        while (fast->next && fast->next->next) {
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+
+        // Reverse second half
+        ListNode* second = reverse(slow->next);
+        slow->next = nullptr;
+
+        // Merge two halves
+        ListNode* first = head;
+        while (second) {
+            ListNode* temp1 = first->next;
+            ListNode* temp2 = second->next;
+
+            first->next = second;
+            second->next = temp1;
+
+            first = temp1;
+            second = temp2;
+        }
+    }
+
+private:
+    ListNode* reverse(ListNode* head) {
+        ListNode* prev = nullptr;
+        while (head) {
+            ListNode* next = head->next;
+            head->next = prev;
+            prev = head;
+            head = next;
+        }
+        return prev;
+    }
+};
+```
+
+#### LC #138 - Copy List with Random Pointer
+```cpp
+class Solution {
+public:
+    Node* copyRandomList(Node* head) {
+        if (!head) return nullptr;
+
+        unordered_map<Node*, Node*> map;
+
+        // First pass: create all nodes
+        Node* curr = head;
+        while (curr) {
+            map[curr] = new Node(curr->val);
+            curr = curr->next;
+        }
+
+        // Second pass: connect next and random pointers
+        curr = head;
+        while (curr) {
+            map[curr]->next = map[curr->next];
+            map[curr]->random = map[curr->random];
+            curr = curr->next;
+        }
+
+        return map[head];
+    }
+};
+```
+
+### Stack Solutions
+
+#### LC #20 - Valid Parentheses
+```cpp
+class Solution {
+public:
+    bool isValid(string s) {
+        stack<char> st;
+        unordered_map<char, char> pairs = {{')', '('}, {']', '['}, {'}', '{'}};
+
+        for (char c : s) {
+            if (pairs.count(c)) {
+                if (st.empty() || st.top() != pairs[c]) return false;
+                st.pop();
+            } else {
+                st.push(c);
+            }
+        }
+
+        return st.empty();
+    }
+};
+```
+
+#### LC #155 - Min Stack
+```cpp
+class MinStack {
+private:
+    stack<int> st;
+    stack<int> minSt;
+
+public:
+    void push(int val) {
+        st.push(val);
+        if (minSt.empty() || val <= minSt.top()) {
+            minSt.push(val);
+        }
+    }
+
+    void pop() {
+        if (st.top() == minSt.top()) {
+            minSt.pop();
+        }
+        st.pop();
+    }
+
+    int top() {
+        return st.top();
+    }
+
+    int getMin() {
+        return minSt.top();
+    }
+};
+```
+
+#### LC #150 - Evaluate Reverse Polish Notation
+```cpp
+class Solution {
+public:
+    int evalRPN(vector<string>& tokens) {
+        stack<int> st;
+
+        for (const string& token : tokens) {
+            if (token == "+" || token == "-" || token == "*" || token == "/") {
+                int b = st.top(); st.pop();
+                int a = st.top(); st.pop();
+
+                if (token == "+") st.push(a + b);
+                else if (token == "-") st.push(a - b);
+                else if (token == "*") st.push(a * b);
+                else st.push(a / b);
+            } else {
+                st.push(stoi(token));
+            }
+        }
+
+        return st.top();
+    }
+};
+```
+
+#### LC #394 - Decode String
+```cpp
+class Solution {
+public:
+    string decodeString(string s) {
+        stack<int> countStack;
+        stack<string> stringStack;
+        string currentString = "";
+        int k = 0;
+
+        for (char c : s) {
+            if (isdigit(c)) {
+                k = k * 10 + (c - '0');
+            } else if (c == '[') {
+                countStack.push(k);
+                stringStack.push(currentString);
+                currentString = "";
+                k = 0;
+            } else if (c == ']') {
+                string decodedString = stringStack.top(); stringStack.pop();
+                int count = countStack.top(); countStack.pop();
+
+                for (int i = 0; i < count; i++) {
+                    decodedString += currentString;
+                }
+
+                currentString = decodedString;
+            } else {
+                currentString += c;
+            }
+        }
+
+        return currentString;
+    }
+};
+```
+
+### Monotonic Stack Solutions
+
+#### LC #496 - Next Greater Element I
+```cpp
+class Solution {
+public:
+    vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2) {
+        unordered_map<int, int> nextGreater;
+        stack<int> st;
+
+        for (int num : nums2) {
+            while (!st.empty() && st.top() < num) {
+                nextGreater[st.top()] = num;
+                st.pop();
+            }
+            st.push(num);
+        }
+
+        vector<int> result;
+        for (int num : nums1) {
+            result.push_back(nextGreater.count(num) ? nextGreater[num] : -1);
+        }
+
+        return result;
+    }
+};
+```
+
+#### LC #739 - Daily Temperatures
+```cpp
+class Solution {
+public:
+    vector<int> dailyTemperatures(vector<int>& temperatures) {
+        int n = temperatures.size();
+        vector<int> result(n, 0);
+        stack<int> st;  // Store indices
+
+        for (int i = 0; i < n; i++) {
+            while (!st.empty() && temperatures[i] > temperatures[st.top()]) {
+                int prevIdx = st.top();
+                st.pop();
+                result[prevIdx] = i - prevIdx;
+            }
+            st.push(i);
+        }
+
+        return result;
+    }
+};
+```
+
+#### LC #84 - Largest Rectangle in Histogram
+```cpp
+class Solution {
+public:
+    int largestRectangleArea(vector<int>& heights) {
+        int n = heights.size();
+        stack<int> st;
+        int maxArea = 0;
+
+        for (int i = 0; i <= n; i++) {
+            int h = (i == n) ? 0 : heights[i];
+
+            while (!st.empty() && h < heights[st.top()]) {
+                int height = heights[st.top()];
+                st.pop();
+                int width = st.empty() ? i : i - st.top() - 1;
+                maxArea = max(maxArea, height * width);
+            }
+
+            st.push(i);
+        }
+
+        return maxArea;
+    }
+};
+```
+
+#### LC #85 - Maximal Rectangle
+```cpp
+class Solution {
+public:
+    int maximalRectangle(vector<vector<char>>& matrix) {
+        if (matrix.empty()) return 0;
+
+        int m = matrix.size(), n = matrix[0].size();
+        vector<int> heights(n, 0);
+        int maxArea = 0;
+
+        for (int i = 0; i < m; i++) {
+            // Build histogram heights
+            for (int j = 0; j < n; j++) {
+                heights[j] = (matrix[i][j] == '1') ? heights[j] + 1 : 0;
+            }
+
+            maxArea = max(maxArea, largestRectangleArea(heights));
+        }
+
+        return maxArea;
+    }
+
+private:
+    int largestRectangleArea(vector<int>& heights) {
+        int n = heights.size();
+        stack<int> st;
+        int maxArea = 0;
+
+        for (int i = 0; i <= n; i++) {
+            int h = (i == n) ? 0 : heights[i];
+
+            while (!st.empty() && h < heights[st.top()]) {
+                int height = heights[st.top()];
+                st.pop();
+                int width = st.empty() ? i : i - st.top() - 1;
+                maxArea = max(maxArea, height * width);
+            }
+
+            st.push(i);
+        }
+
+        return maxArea;
+    }
+};
+```
+
+### Tree Solutions
+
+#### LC #102 - Binary Tree Level Order Traversal
+```cpp
+class Solution {
+public:
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        vector<vector<int>> result;
+        if (!root) return result;
+
+        queue<TreeNode*> q;
+        q.push(root);
+
+        while (!q.empty()) {
+            int levelSize = q.size();
+            vector<int> level;
+
+            for (int i = 0; i < levelSize; i++) {
+                TreeNode* node = q.front();
+                q.pop();
+                level.push_back(node->val);
+
+                if (node->left) q.push(node->left);
+                if (node->right) q.push(node->right);
+            }
+
+            result.push_back(level);
+        }
+
+        return result;
+    }
+};
+```
+
+#### LC #103 - Binary Tree Zigzag Level Order
+```cpp
+class Solution {
+public:
+    vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
+        vector<vector<int>> result;
+        if (!root) return result;
+
+        queue<TreeNode*> q;
+        q.push(root);
+        bool leftToRight = true;
+
+        while (!q.empty()) {
+            int levelSize = q.size();
+            vector<int> level(levelSize);
+
+            for (int i = 0; i < levelSize; i++) {
+                TreeNode* node = q.front();
+                q.pop();
+
+                int idx = leftToRight ? i : levelSize - 1 - i;
+                level[idx] = node->val;
+
+                if (node->left) q.push(node->left);
+                if (node->right) q.push(node->right);
+            }
+
+            result.push_back(level);
+            leftToRight = !leftToRight;
+        }
+
+        return result;
+    }
+};
+```
+
+#### LC #104 - Maximum Depth of Binary Tree
+```cpp
+class Solution {
+public:
+    int maxDepth(TreeNode* root) {
+        if (!root) return 0;
+        return 1 + max(maxDepth(root->left), maxDepth(root->right));
+    }
+};
+```
+
+#### LC #226 - Invert Binary Tree
+```cpp
+class Solution {
+public:
+    TreeNode* invertTree(TreeNode* root) {
+        if (!root) return nullptr;
+
+        swap(root->left, root->right);
+        invertTree(root->left);
+        invertTree(root->right);
+
+        return root;
+    }
+};
+```
+
+#### LC #101 - Symmetric Tree
+```cpp
+class Solution {
+public:
+    bool isSymmetric(TreeNode* root) {
+        return isMirror(root, root);
+    }
+
+private:
+    bool isMirror(TreeNode* t1, TreeNode* t2) {
+        if (!t1 && !t2) return true;
+        if (!t1 || !t2) return false;
+
+        return t1->val == t2->val
+            && isMirror(t1->left, t2->right)
+            && isMirror(t1->right, t2->left);
+    }
+};
+```
+
+#### LC #112 - Path Sum
+```cpp
+class Solution {
+public:
+    bool hasPathSum(TreeNode* root, int targetSum) {
+        if (!root) return false;
+
+        if (!root->left && !root->right) {
+            return root->val == targetSum;
+        }
+
+        return hasPathSum(root->left, targetSum - root->val)
+            || hasPathSum(root->right, targetSum - root->val);
+    }
+};
+```
+
+#### LC #113 - Path Sum II
+```cpp
+class Solution {
+public:
+    vector<vector<int>> pathSum(TreeNode* root, int targetSum) {
+        vector<vector<int>> result;
+        vector<int> path;
+        dfs(root, targetSum, path, result);
+        return result;
+    }
+
+private:
+    void dfs(TreeNode* node, int target, vector<int>& path, vector<vector<int>>& result) {
+        if (!node) return;
+
+        path.push_back(node->val);
+
+        if (!node->left && !node->right && target == node->val) {
+            result.push_back(path);
+        }
+
+        dfs(node->left, target - node->val, path, result);
+        dfs(node->right, target - node->val, path, result);
+
+        path.pop_back();  // Backtrack
+    }
+};
+```
+
+#### LC #437 - Path Sum III
+```cpp
+class Solution {
+public:
+    int pathSum(TreeNode* root, int targetSum) {
+        unordered_map<long long, int> prefixSum;
+        prefixSum[0] = 1;
+        return dfs(root, 0, targetSum, prefixSum);
+    }
+
+private:
+    int dfs(TreeNode* node, long long currSum, int target, unordered_map<long long, int>& prefixSum) {
+        if (!node) return 0;
+
+        currSum += node->val;
+        int count = prefixSum[currSum - target];
+
+        prefixSum[currSum]++;
+        count += dfs(node->left, currSum, target, prefixSum);
+        count += dfs(node->right, currSum, target, prefixSum);
+        prefixSum[currSum]--;  // Backtrack
+
+        return count;
+    }
+};
+```
+
+#### LC #124 - Binary Tree Maximum Path Sum
+```cpp
+class Solution {
+public:
+    int maxPathSum(TreeNode* root) {
+        int maxSum = INT_MIN;
+        maxGain(root, maxSum);
+        return maxSum;
+    }
+
+private:
+    int maxGain(TreeNode* node, int& maxSum) {
+        if (!node) return 0;
+
+        int leftGain = max(0, maxGain(node->left, maxSum));
+        int rightGain = max(0, maxGain(node->right, maxSum));
+
+        // Path through current node
+        int pathSum = node->val + leftGain + rightGain;
+        maxSum = max(maxSum, pathSum);
+
+        // Return max single path
+        return node->val + max(leftGain, rightGain);
+    }
+};
+```
+
+#### LC #543 - Diameter of Binary Tree
+```cpp
+class Solution {
+public:
+    int diameterOfBinaryTree(TreeNode* root) {
+        int diameter = 0;
+        height(root, diameter);
+        return diameter;
+    }
+
+private:
+    int height(TreeNode* node, int& diameter) {
+        if (!node) return 0;
+
+        int leftHeight = height(node->left, diameter);
+        int rightHeight = height(node->right, diameter);
+
+        diameter = max(diameter, leftHeight + rightHeight);
+
+        return 1 + max(leftHeight, rightHeight);
+    }
+};
+```
+
+#### LC #236 - Lowest Common Ancestor
+```cpp
+class Solution {
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        if (!root || root == p || root == q) return root;
+
+        TreeNode* left = lowestCommonAncestor(root->left, p, q);
+        TreeNode* right = lowestCommonAncestor(root->right, p, q);
+
+        if (left && right) return root;
+        return left ? left : right;
+    }
+};
+```
+
+#### LC #98 - Validate Binary Search Tree
+```cpp
+class Solution {
+public:
+    bool isValidBST(TreeNode* root) {
+        return validate(root, LONG_MIN, LONG_MAX);
+    }
+
+private:
+    bool validate(TreeNode* node, long minVal, long maxVal) {
+        if (!node) return true;
+
+        if (node->val <= minVal || node->val >= maxVal) return false;
+
+        return validate(node->left, minVal, node->val)
+            && validate(node->right, node->val, maxVal);
+    }
+};
+```
+
+#### LC #230 - Kth Smallest Element in BST
+```cpp
+class Solution {
+public:
+    int kthSmallest(TreeNode* root, int k) {
+        stack<TreeNode*> st;
+        TreeNode* curr = root;
+
+        while (curr || !st.empty()) {
+            while (curr) {
+                st.push(curr);
+                curr = curr->left;
+            }
+
+            curr = st.top();
+            st.pop();
+
+            k--;
+            if (k == 0) return curr->val;
+
+            curr = curr->right;
+        }
+
+        return -1;
+    }
+};
+```
+
+#### LC #199 - Binary Tree Right Side View
+```cpp
+class Solution {
+public:
+    vector<int> rightSideView(TreeNode* root) {
+        vector<int> result;
+        if (!root) return result;
+
+        queue<TreeNode*> q;
+        q.push(root);
+
+        while (!q.empty()) {
+            int levelSize = q.size();
+
+            for (int i = 0; i < levelSize; i++) {
+                TreeNode* node = q.front();
+                q.pop();
+
+                if (i == levelSize - 1) {
+                    result.push_back(node->val);
+                }
+
+                if (node->left) q.push(node->left);
+                if (node->right) q.push(node->right);
+            }
+        }
+
+        return result;
+    }
+};
+```
+
+#### LC #105 - Construct Tree from Preorder and Inorder
+```cpp
+class Solution {
+public:
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+        unordered_map<int, int> inorderMap;
+        for (int i = 0; i < inorder.size(); i++) {
+            inorderMap[inorder[i]] = i;
+        }
+
+        int preIdx = 0;
+        return build(preorder, preIdx, 0, inorder.size() - 1, inorderMap);
+    }
+
+private:
+    TreeNode* build(vector<int>& preorder, int& preIdx, int inLeft, int inRight,
+                    unordered_map<int, int>& inorderMap) {
+        if (inLeft > inRight) return nullptr;
+
+        int rootVal = preorder[preIdx++];
+        TreeNode* root = new TreeNode(rootVal);
+
+        int inIdx = inorderMap[rootVal];
+
+        root->left = build(preorder, preIdx, inLeft, inIdx - 1, inorderMap);
+        root->right = build(preorder, preIdx, inIdx + 1, inRight, inorderMap);
+
+        return root;
+    }
+};
+```
+
+#### LC #114 - Flatten Binary Tree to Linked List
+```cpp
+class Solution {
+public:
+    void flatten(TreeNode* root) {
+        TreeNode* curr = root;
+
+        while (curr) {
+            if (curr->left) {
+                // Find rightmost node of left subtree
+                TreeNode* rightmost = curr->left;
+                while (rightmost->right) {
+                    rightmost = rightmost->right;
+                }
+
+                // Connect right subtree to rightmost
+                rightmost->right = curr->right;
+                curr->right = curr->left;
+                curr->left = nullptr;
+            }
+
+            curr = curr->right;
+        }
+    }
+};
+```
+
+### Graph Solutions
+
+#### LC #200 - Number of Islands
+```cpp
+class Solution {
+public:
+    int numIslands(vector<vector<char>>& grid) {
+        int m = grid.size(), n = grid[0].size();
+        int count = 0;
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j] == '1') {
+                    count++;
+                    dfs(grid, i, j);
+                }
+            }
+        }
+
+        return count;
+    }
+
+private:
+    void dfs(vector<vector<char>>& grid, int i, int j) {
+        int m = grid.size(), n = grid[0].size();
+
+        if (i < 0 || i >= m || j < 0 || j >= n || grid[i][j] == '0') {
+            return;
+        }
+
+        grid[i][j] = '0';  // Mark visited
+        dfs(grid, i + 1, j);
+        dfs(grid, i - 1, j);
+        dfs(grid, i, j + 1);
+        dfs(grid, i, j - 1);
+    }
+};
+```
+
+#### LC #695 - Max Area of Island
+```cpp
+class Solution {
+public:
+    int maxAreaOfIsland(vector<vector<int>>& grid) {
+        int m = grid.size(), n = grid[0].size();
+        int maxArea = 0;
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j] == 1) {
+                    maxArea = max(maxArea, dfs(grid, i, j));
+                }
+            }
+        }
+
+        return maxArea;
+    }
+
+private:
+    int dfs(vector<vector<int>>& grid, int i, int j) {
+        int m = grid.size(), n = grid[0].size();
+
+        if (i < 0 || i >= m || j < 0 || j >= n || grid[i][j] == 0) {
+            return 0;
+        }
+
+        grid[i][j] = 0;  // Mark visited
+        return 1 + dfs(grid, i + 1, j) + dfs(grid, i - 1, j)
+                 + dfs(grid, i, j + 1) + dfs(grid, i, j - 1);
+    }
+};
+```
+
+#### LC #994 - Rotting Oranges
+```cpp
+class Solution {
+public:
+    int orangesRotting(vector<vector<int>>& grid) {
+        int m = grid.size(), n = grid[0].size();
+        queue<pair<int, int>> q;
+        int fresh = 0;
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j] == 2) {
+                    q.push({i, j});
+                } else if (grid[i][j] == 1) {
+                    fresh++;
+                }
+            }
+        }
+
+        if (fresh == 0) return 0;
+
+        int dx[] = {-1, 1, 0, 0};
+        int dy[] = {0, 0, -1, 1};
+        int minutes = 0;
+
+        while (!q.empty()) {
+            int size = q.size();
+            bool rotted = false;
+
+            for (int i = 0; i < size; i++) {
+                auto [x, y] = q.front();
+                q.pop();
+
+                for (int d = 0; d < 4; d++) {
+                    int nx = x + dx[d], ny = y + dy[d];
+
+                    if (nx >= 0 && nx < m && ny >= 0 && ny < n && grid[nx][ny] == 1) {
+                        grid[nx][ny] = 2;
+                        q.push({nx, ny});
+                        fresh--;
+                        rotted = true;
+                    }
+                }
+            }
+
+            if (rotted) minutes++;
+        }
+
+        return fresh == 0 ? minutes : -1;
+    }
+};
+```
+
+#### LC #133 - Clone Graph
+```cpp
+class Solution {
+public:
+    Node* cloneGraph(Node* node) {
+        if (!node) return nullptr;
+
+        unordered_map<Node*, Node*> visited;
+        return dfs(node, visited);
+    }
+
+private:
+    Node* dfs(Node* node, unordered_map<Node*, Node*>& visited) {
+        if (visited.count(node)) {
+            return visited[node];
+        }
+
+        Node* clone = new Node(node->val);
+        visited[node] = clone;
+
+        for (Node* neighbor : node->neighbors) {
+            clone->neighbors.push_back(dfs(neighbor, visited));
+        }
+
+        return clone;
+    }
+};
+```
+
+#### LC #207 - Course Schedule
+```cpp
+class Solution {
+public:
+    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+        vector<vector<int>> graph(numCourses);
+        vector<int> inDegree(numCourses, 0);
+
+        for (auto& pre : prerequisites) {
+            graph[pre[1]].push_back(pre[0]);
+            inDegree[pre[0]]++;
+        }
+
+        queue<int> q;
+        for (int i = 0; i < numCourses; i++) {
+            if (inDegree[i] == 0) q.push(i);
+        }
+
+        int count = 0;
+        while (!q.empty()) {
+            int course = q.front();
+            q.pop();
+            count++;
+
+            for (int next : graph[course]) {
+                if (--inDegree[next] == 0) {
+                    q.push(next);
+                }
+            }
+        }
+
+        return count == numCourses;
+    }
+};
+```
+
+#### LC #210 - Course Schedule II
+```cpp
+class Solution {
+public:
+    vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
+        vector<vector<int>> graph(numCourses);
+        vector<int> inDegree(numCourses, 0);
+
+        for (auto& pre : prerequisites) {
+            graph[pre[1]].push_back(pre[0]);
+            inDegree[pre[0]]++;
+        }
+
+        queue<int> q;
+        for (int i = 0; i < numCourses; i++) {
+            if (inDegree[i] == 0) q.push(i);
+        }
+
+        vector<int> order;
+        while (!q.empty()) {
+            int course = q.front();
+            q.pop();
+            order.push_back(course);
+
+            for (int next : graph[course]) {
+                if (--inDegree[next] == 0) {
+                    q.push(next);
+                }
+            }
+        }
+
+        return order.size() == numCourses ? order : vector<int>();
+    }
+};
+```
+
+#### LC #127 - Word Ladder
+```cpp
+class Solution {
+public:
+    int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
+        unordered_set<string> wordSet(wordList.begin(), wordList.end());
+        if (!wordSet.count(endWord)) return 0;
+
+        queue<string> q;
+        q.push(beginWord);
+        int length = 1;
+
+        while (!q.empty()) {
+            int size = q.size();
+
+            for (int i = 0; i < size; i++) {
+                string word = q.front();
+                q.pop();
+
+                if (word == endWord) return length;
+
+                for (int j = 0; j < word.length(); j++) {
+                    char original = word[j];
+
+                    for (char c = 'a'; c <= 'z'; c++) {
+                        word[j] = c;
+
+                        if (wordSet.count(word)) {
+                            q.push(word);
+                            wordSet.erase(word);
+                        }
+                    }
+
+                    word[j] = original;
+                }
+            }
+
+            length++;
+        }
+
+        return 0;
+    }
+};
+```
+
+#### LC #743 - Network Delay Time (Dijkstra)
+```cpp
+class Solution {
+public:
+    int networkDelayTime(vector<vector<int>>& times, int n, int k) {
+        vector<vector<pair<int, int>>> graph(n + 1);
+
+        for (auto& t : times) {
+            graph[t[0]].push_back({t[1], t[2]});
+        }
+
+        vector<int> dist(n + 1, INT_MAX);
+        dist[k] = 0;
+
+        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> pq;
+        pq.push({0, k});
+
+        while (!pq.empty()) {
+            auto [d, u] = pq.top();
+            pq.pop();
+
+            if (d > dist[u]) continue;
+
+            for (auto& [v, w] : graph[u]) {
+                if (dist[u] + w < dist[v]) {
+                    dist[v] = dist[u] + w;
+                    pq.push({dist[v], v});
+                }
+            }
+        }
+
+        int maxTime = *max_element(dist.begin() + 1, dist.end());
+        return maxTime == INT_MAX ? -1 : maxTime;
+    }
+};
+```
+
+#### LC #785 - Is Graph Bipartite
+```cpp
+class Solution {
+public:
+    bool isBipartite(vector<vector<int>>& graph) {
+        int n = graph.size();
+        vector<int> color(n, -1);
+
+        for (int i = 0; i < n; i++) {
+            if (color[i] == -1) {
+                if (!bfs(graph, i, color)) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+private:
+    bool bfs(vector<vector<int>>& graph, int start, vector<int>& color) {
+        queue<int> q;
+        q.push(start);
+        color[start] = 0;
+
+        while (!q.empty()) {
+            int node = q.front();
+            q.pop();
+
+            for (int neighbor : graph[node]) {
+                if (color[neighbor] == -1) {
+                    color[neighbor] = 1 - color[node];
+                    q.push(neighbor);
+                } else if (color[neighbor] == color[node]) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+};
+```
+
+#### LC #329 - Longest Increasing Path in Matrix
+```cpp
+class Solution {
+public:
+    int longestIncreasingPath(vector<vector<int>>& matrix) {
+        int m = matrix.size(), n = matrix[0].size();
+        vector<vector<int>> memo(m, vector<int>(n, 0));
+        int maxLen = 0;
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                maxLen = max(maxLen, dfs(matrix, i, j, memo));
+            }
+        }
+
+        return maxLen;
+    }
+
+private:
+    int dx[4] = {-1, 1, 0, 0};
+    int dy[4] = {0, 0, -1, 1};
+
+    int dfs(vector<vector<int>>& matrix, int i, int j, vector<vector<int>>& memo) {
+        if (memo[i][j] != 0) return memo[i][j];
+
+        int m = matrix.size(), n = matrix[0].size();
+        int maxLen = 1;
+
+        for (int d = 0; d < 4; d++) {
+            int ni = i + dx[d], nj = j + dy[d];
+
+            if (ni >= 0 && ni < m && nj >= 0 && nj < n && matrix[ni][nj] > matrix[i][j]) {
+                maxLen = max(maxLen, 1 + dfs(matrix, ni, nj, memo));
+            }
+        }
+
+        memo[i][j] = maxLen;
+        return maxLen;
+    }
+};
+```
+
+#### LC #79 - Word Search
+```cpp
+class Solution {
+public:
+    bool exist(vector<vector<char>>& board, string word) {
+        int m = board.size(), n = board[0].size();
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (dfs(board, word, i, j, 0)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+private:
+    bool dfs(vector<vector<char>>& board, string& word, int i, int j, int k) {
+        int m = board.size(), n = board[0].size();
+
+        if (k == word.length()) return true;
+        if (i < 0 || i >= m || j < 0 || j >= n || board[i][j] != word[k]) {
+            return false;
+        }
+
+        char temp = board[i][j];
+        board[i][j] = '#';  // Mark visited
+
+        bool found = dfs(board, word, i + 1, j, k + 1)
+                  || dfs(board, word, i - 1, j, k + 1)
+                  || dfs(board, word, i, j + 1, k + 1)
+                  || dfs(board, word, i, j - 1, k + 1);
+
+        board[i][j] = temp;  // Backtrack
+        return found;
+    }
+};
+```
+
+### Heap Solutions
+
+#### LC #215 - Kth Largest Element in Array
+```cpp
+class Solution {
+public:
+    int findKthLargest(vector<int>& nums, int k) {
+        // Min heap of size k
+        priority_queue<int, vector<int>, greater<int>> pq;
+
+        for (int num : nums) {
+            pq.push(num);
+            if (pq.size() > k) {
+                pq.pop();
+            }
+        }
+
+        return pq.top();
+    }
+};
+```
+
+#### LC #347 - Top K Frequent Elements
+```cpp
+class Solution {
+public:
+    vector<int> topKFrequent(vector<int>& nums, int k) {
+        unordered_map<int, int> freq;
+        for (int num : nums) freq[num]++;
+
+        auto cmp = [](pair<int, int>& a, pair<int, int>& b) {
+            return a.second > b.second;
+        };
+        priority_queue<pair<int, int>, vector<pair<int, int>>, decltype(cmp)> pq(cmp);
+
+        for (auto& [num, count] : freq) {
+            pq.push({num, count});
+            if (pq.size() > k) pq.pop();
+        }
+
+        vector<int> result;
+        while (!pq.empty()) {
+            result.push_back(pq.top().first);
+            pq.pop();
+        }
+
+        return result;
+    }
+};
+```
+
+#### LC #295 - Find Median from Data Stream
+```cpp
+class MedianFinder {
+private:
+    priority_queue<int> maxHeap;  // Lower half
+    priority_queue<int, vector<int>, greater<int>> minHeap;  // Upper half
+
+public:
+    void addNum(int num) {
+        maxHeap.push(num);
+        minHeap.push(maxHeap.top());
+        maxHeap.pop();
+
+        if (minHeap.size() > maxHeap.size()) {
+            maxHeap.push(minHeap.top());
+            minHeap.pop();
+        }
+    }
+
+    double findMedian() {
+        if (maxHeap.size() > minHeap.size()) {
+            return maxHeap.top();
+        }
+        return (maxHeap.top() + minHeap.top()) / 2.0;
+    }
+};
+```
+
+#### LC #973 - K Closest Points to Origin
+```cpp
+class Solution {
+public:
+    vector<vector<int>> kClosest(vector<vector<int>>& points, int k) {
+        auto cmp = [](vector<int>& a, vector<int>& b) {
+            return a[0]*a[0] + a[1]*a[1] < b[0]*b[0] + b[1]*b[1];
+        };
+        priority_queue<vector<int>, vector<vector<int>>, decltype(cmp)> pq(cmp);
+
+        for (auto& point : points) {
+            pq.push(point);
+            if (pq.size() > k) pq.pop();
+        }
+
+        vector<vector<int>> result;
+        while (!pq.empty()) {
+            result.push_back(pq.top());
+            pq.pop();
+        }
+
+        return result;
+    }
+};
+```
+
+#### LC #621 - Task Scheduler
+```cpp
+class Solution {
+public:
+    int leastInterval(vector<char>& tasks, int n) {
+        vector<int> freq(26, 0);
+        for (char task : tasks) freq[task - 'A']++;
+
+        int maxFreq = *max_element(freq.begin(), freq.end());
+        int maxCount = count(freq.begin(), freq.end(), maxFreq);
+
+        // Formula: (maxFreq - 1) * (n + 1) + maxCount
+        int result = (maxFreq - 1) * (n + 1) + maxCount;
+
+        return max(result, (int)tasks.size());
+    }
+};
+```
+
+#### LC #253 - Meeting Rooms II
+```cpp
+class Solution {
+public:
+    int minMeetingRooms(vector<vector<int>>& intervals) {
+        sort(intervals.begin(), intervals.end());
+
+        priority_queue<int, vector<int>, greater<int>> pq;  // Min heap of end times
+
+        for (auto& interval : intervals) {
+            if (!pq.empty() && pq.top() <= interval[0]) {
+                pq.pop();  // Room becomes free
+            }
+            pq.push(interval[1]);
+        }
+
+        return pq.size();
+    }
+};
+```
+
+### Backtracking Solutions
+
+#### LC #46 - Permutations
+```cpp
+class Solution {
+public:
+    vector<vector<int>> permute(vector<int>& nums) {
+        vector<vector<int>> result;
+        backtrack(nums, 0, result);
+        return result;
+    }
+
+private:
+    void backtrack(vector<int>& nums, int start, vector<vector<int>>& result) {
+        if (start == nums.size()) {
+            result.push_back(nums);
+            return;
+        }
+
+        for (int i = start; i < nums.size(); i++) {
+            swap(nums[start], nums[i]);
+            backtrack(nums, start + 1, result);
+            swap(nums[start], nums[i]);
+        }
+    }
+};
+```
+
+#### LC #47 - Permutations II
+```cpp
+class Solution {
+public:
+    vector<vector<int>> permuteUnique(vector<int>& nums) {
+        vector<vector<int>> result;
+        vector<int> current;
+        vector<bool> used(nums.size(), false);
+        sort(nums.begin(), nums.end());
+        backtrack(nums, used, current, result);
+        return result;
+    }
+
+private:
+    void backtrack(vector<int>& nums, vector<bool>& used, vector<int>& current,
+                   vector<vector<int>>& result) {
+        if (current.size() == nums.size()) {
+            result.push_back(current);
+            return;
+        }
+
+        for (int i = 0; i < nums.size(); i++) {
+            if (used[i]) continue;
+            if (i > 0 && nums[i] == nums[i-1] && !used[i-1]) continue;  // Skip duplicates
+
+            used[i] = true;
+            current.push_back(nums[i]);
+            backtrack(nums, used, current, result);
+            current.pop_back();
+            used[i] = false;
+        }
+    }
+};
+```
+
+#### LC #78 - Subsets
+```cpp
+class Solution {
+public:
+    vector<vector<int>> subsets(vector<int>& nums) {
+        vector<vector<int>> result;
+        vector<int> current;
+        backtrack(nums, 0, current, result);
+        return result;
+    }
+
+private:
+    void backtrack(vector<int>& nums, int start, vector<int>& current,
+                   vector<vector<int>>& result) {
+        result.push_back(current);
+
+        for (int i = start; i < nums.size(); i++) {
+            current.push_back(nums[i]);
+            backtrack(nums, i + 1, current, result);
+            current.pop_back();
+        }
+    }
+};
+```
+
+#### LC #90 - Subsets II
+```cpp
+class Solution {
+public:
+    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+        vector<vector<int>> result;
+        vector<int> current;
+        sort(nums.begin(), nums.end());
+        backtrack(nums, 0, current, result);
+        return result;
+    }
+
+private:
+    void backtrack(vector<int>& nums, int start, vector<int>& current,
+                   vector<vector<int>>& result) {
+        result.push_back(current);
+
+        for (int i = start; i < nums.size(); i++) {
+            if (i > start && nums[i] == nums[i-1]) continue;  // Skip duplicates
+
+            current.push_back(nums[i]);
+            backtrack(nums, i + 1, current, result);
+            current.pop_back();
+        }
+    }
+};
+```
+
+#### LC #39 - Combination Sum
+```cpp
+class Solution {
+public:
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        vector<vector<int>> result;
+        vector<int> current;
+        backtrack(candidates, target, 0, current, result);
+        return result;
+    }
+
+private:
+    void backtrack(vector<int>& candidates, int target, int start,
+                   vector<int>& current, vector<vector<int>>& result) {
+        if (target == 0) {
+            result.push_back(current);
+            return;
+        }
+
+        for (int i = start; i < candidates.size(); i++) {
+            if (candidates[i] > target) continue;
+
+            current.push_back(candidates[i]);
+            backtrack(candidates, target - candidates[i], i, current, result);  // Can reuse
+            current.pop_back();
+        }
+    }
+};
+```
+
+#### LC #40 - Combination Sum II
+```cpp
+class Solution {
+public:
+    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+        vector<vector<int>> result;
+        vector<int> current;
+        sort(candidates.begin(), candidates.end());
+        backtrack(candidates, target, 0, current, result);
+        return result;
+    }
+
+private:
+    void backtrack(vector<int>& candidates, int target, int start,
+                   vector<int>& current, vector<vector<int>>& result) {
+        if (target == 0) {
+            result.push_back(current);
+            return;
+        }
+
+        for (int i = start; i < candidates.size(); i++) {
+            if (candidates[i] > target) break;
+            if (i > start && candidates[i] == candidates[i-1]) continue;  // Skip duplicates
+
+            current.push_back(candidates[i]);
+            backtrack(candidates, target - candidates[i], i + 1, current, result);
+            current.pop_back();
+        }
+    }
+};
+```
+
+#### LC #22 - Generate Parentheses
+```cpp
+class Solution {
+public:
+    vector<string> generateParenthesis(int n) {
+        vector<string> result;
+        backtrack("", n, n, result);
+        return result;
+    }
+
+private:
+    void backtrack(string current, int open, int close, vector<string>& result) {
+        if (open == 0 && close == 0) {
+            result.push_back(current);
+            return;
+        }
+
+        if (open > 0) {
+            backtrack(current + "(", open - 1, close, result);
+        }
+        if (close > open) {
+            backtrack(current + ")", open, close - 1, result);
+        }
+    }
+};
+```
+
+#### LC #51 - N-Queens
+```cpp
+class Solution {
+public:
+    vector<vector<string>> solveNQueens(int n) {
+        vector<vector<string>> result;
+        vector<string> board(n, string(n, '.'));
+        backtrack(board, 0, result);
+        return result;
+    }
+
+private:
+    void backtrack(vector<string>& board, int row, vector<vector<string>>& result) {
+        if (row == board.size()) {
+            result.push_back(board);
+            return;
+        }
+
+        for (int col = 0; col < board.size(); col++) {
+            if (isValid(board, row, col)) {
+                board[row][col] = 'Q';
+                backtrack(board, row + 1, result);
+                board[row][col] = '.';
+            }
+        }
+    }
+
+    bool isValid(vector<string>& board, int row, int col) {
+        int n = board.size();
+
+        // Check column
+        for (int i = 0; i < row; i++) {
+            if (board[i][col] == 'Q') return false;
+        }
+
+        // Check upper-left diagonal
+        for (int i = row - 1, j = col - 1; i >= 0 && j >= 0; i--, j--) {
+            if (board[i][j] == 'Q') return false;
+        }
+
+        // Check upper-right diagonal
+        for (int i = row - 1, j = col + 1; i >= 0 && j < n; i--, j++) {
+            if (board[i][j] == 'Q') return false;
+        }
+
+        return true;
+    }
+};
+```
+
+#### LC #17 - Letter Combinations of Phone Number
+```cpp
+class Solution {
+public:
+    vector<string> letterCombinations(string digits) {
+        if (digits.empty()) return {};
+
+        vector<string> mapping = {"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+        vector<string> result;
+        backtrack(digits, 0, "", mapping, result);
+        return result;
+    }
+
+private:
+    void backtrack(string& digits, int index, string current,
+                   vector<string>& mapping, vector<string>& result) {
+        if (index == digits.length()) {
+            result.push_back(current);
+            return;
+        }
+
+        string letters = mapping[digits[index] - '0'];
+        for (char c : letters) {
+            backtrack(digits, index + 1, current + c, mapping, result);
+        }
+    }
+};
+```
+
+### Dynamic Programming Solutions
+
+#### LC #70 - Climbing Stairs
+```cpp
+class Solution {
+public:
+    int climbStairs(int n) {
+        if (n <= 2) return n;
+
+        int prev2 = 1, prev1 = 2;
+        for (int i = 3; i <= n; i++) {
+            int curr = prev1 + prev2;
+            prev2 = prev1;
+            prev1 = curr;
+        }
+
+        return prev1;
+    }
+};
+```
+
+#### LC #198 - House Robber
+```cpp
+class Solution {
+public:
+    int rob(vector<int>& nums) {
+        int n = nums.size();
+        if (n == 1) return nums[0];
+
+        int prev2 = nums[0];
+        int prev1 = max(nums[0], nums[1]);
+
+        for (int i = 2; i < n; i++) {
+            int curr = max(prev1, prev2 + nums[i]);
+            prev2 = prev1;
+            prev1 = curr;
+        }
+
+        return prev1;
+    }
+};
+```
+
+#### LC #213 - House Robber II
+```cpp
+class Solution {
+public:
+    int rob(vector<int>& nums) {
+        int n = nums.size();
+        if (n == 1) return nums[0];
+
+        return max(robRange(nums, 0, n - 2), robRange(nums, 1, n - 1));
+    }
+
+private:
+    int robRange(vector<int>& nums, int start, int end) {
+        int prev2 = 0, prev1 = 0;
+
+        for (int i = start; i <= end; i++) {
+            int curr = max(prev1, prev2 + nums[i]);
+            prev2 = prev1;
+            prev1 = curr;
+        }
+
+        return prev1;
+    }
+};
+```
+
+#### LC #300 - Longest Increasing Subsequence
+```cpp
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        vector<int> tails;
+
+        for (int num : nums) {
+            auto it = lower_bound(tails.begin(), tails.end(), num);
+            if (it == tails.end()) {
+                tails.push_back(num);
+            } else {
+                *it = num;
+            }
+        }
+
+        return tails.size();
+    }
+};
+```
+
+#### LC #322 - Coin Change
+```cpp
+class Solution {
+public:
+    int coinChange(vector<int>& coins, int amount) {
+        vector<int> dp(amount + 1, amount + 1);
+        dp[0] = 0;
+
+        for (int i = 1; i <= amount; i++) {
+            for (int coin : coins) {
+                if (coin <= i) {
+                    dp[i] = min(dp[i], dp[i - coin] + 1);
+                }
+            }
+        }
+
+        return dp[amount] > amount ? -1 : dp[amount];
+    }
+};
+```
+
+#### LC #518 - Coin Change II
+```cpp
+class Solution {
+public:
+    int change(int amount, vector<int>& coins) {
+        vector<int> dp(amount + 1, 0);
+        dp[0] = 1;
+
+        for (int coin : coins) {
+            for (int i = coin; i <= amount; i++) {
+                dp[i] += dp[i - coin];
+            }
+        }
+
+        return dp[amount];
+    }
+};
+```
+
+#### LC #1143 - Longest Common Subsequence
+```cpp
+class Solution {
+public:
+    int longestCommonSubsequence(string text1, string text2) {
+        int m = text1.length(), n = text2.length();
+        vector<vector<int>> dp(m + 1, vector<int>(n + 1, 0));
+
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= n; j++) {
+                if (text1[i - 1] == text2[j - 1]) {
+                    dp[i][j] = dp[i - 1][j - 1] + 1;
+                } else {
+                    dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]);
+                }
+            }
+        }
+
+        return dp[m][n];
+    }
+};
+```
+
+#### LC #72 - Edit Distance
+```cpp
+class Solution {
+public:
+    int minDistance(string word1, string word2) {
+        int m = word1.length(), n = word2.length();
+        vector<vector<int>> dp(m + 1, vector<int>(n + 1));
+
+        for (int i = 0; i <= m; i++) dp[i][0] = i;
+        for (int j = 0; j <= n; j++) dp[0][j] = j;
+
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= n; j++) {
+                if (word1[i - 1] == word2[j - 1]) {
+                    dp[i][j] = dp[i - 1][j - 1];
+                } else {
+                    dp[i][j] = 1 + min({dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1]});
+                }
+            }
+        }
+
+        return dp[m][n];
+    }
+};
+```
+
+#### LC #416 - Partition Equal Subset Sum
+```cpp
+class Solution {
+public:
+    bool canPartition(vector<int>& nums) {
+        int total = accumulate(nums.begin(), nums.end(), 0);
+        if (total % 2 != 0) return false;
+
+        int target = total / 2;
+        vector<bool> dp(target + 1, false);
+        dp[0] = true;
+
+        for (int num : nums) {
+            for (int j = target; j >= num; j--) {
+                dp[j] = dp[j] || dp[j - num];
+            }
+        }
+
+        return dp[target];
+    }
+};
+```
+
+#### LC #494 - Target Sum
+```cpp
+class Solution {
+public:
+    int findTargetSumWays(vector<int>& nums, int target) {
+        int total = accumulate(nums.begin(), nums.end(), 0);
+
+        if ((total + target) % 2 != 0 || total + target < 0) return 0;
+
+        int sum = (total + target) / 2;
+        vector<int> dp(sum + 1, 0);
+        dp[0] = 1;
+
+        for (int num : nums) {
+            for (int j = sum; j >= num; j--) {
+                dp[j] += dp[j - num];
+            }
+        }
+
+        return dp[sum];
+    }
+};
+```
+
+#### LC #139 - Word Break
+```cpp
+class Solution {
+public:
+    bool wordBreak(string s, vector<string>& wordDict) {
+        unordered_set<string> dict(wordDict.begin(), wordDict.end());
+        int n = s.length();
+        vector<bool> dp(n + 1, false);
+        dp[0] = true;
+
+        for (int i = 1; i <= n; i++) {
+            for (int j = 0; j < i; j++) {
+                if (dp[j] && dict.count(s.substr(j, i - j))) {
+                    dp[i] = true;
+                    break;
+                }
+            }
+        }
+
+        return dp[n];
+    }
+};
+```
+
+#### LC #5 - Longest Palindromic Substring
+```cpp
+class Solution {
+public:
+    string longestPalindrome(string s) {
+        int n = s.length();
+        int start = 0, maxLen = 1;
+
+        for (int i = 0; i < n; i++) {
+            // Odd length
+            int len1 = expandAroundCenter(s, i, i);
+            // Even length
+            int len2 = expandAroundCenter(s, i, i + 1);
+
+            int len = max(len1, len2);
+            if (len > maxLen) {
+                maxLen = len;
+                start = i - (len - 1) / 2;
+            }
+        }
+
+        return s.substr(start, maxLen);
+    }
+
+private:
+    int expandAroundCenter(string& s, int left, int right) {
+        while (left >= 0 && right < s.length() && s[left] == s[right]) {
+            left--;
+            right++;
+        }
+        return right - left - 1;
+    }
+};
+```
+
+#### LC #62 - Unique Paths
+```cpp
+class Solution {
+public:
+    int uniquePaths(int m, int n) {
+        vector<int> dp(n, 1);
+
+        for (int i = 1; i < m; i++) {
+            for (int j = 1; j < n; j++) {
+                dp[j] += dp[j - 1];
+            }
+        }
+
+        return dp[n - 1];
+    }
+};
+```
+
+#### LC #64 - Minimum Path Sum
+```cpp
+class Solution {
+public:
+    int minPathSum(vector<vector<int>>& grid) {
+        int m = grid.size(), n = grid[0].size();
+
+        for (int i = 1; i < m; i++) grid[i][0] += grid[i - 1][0];
+        for (int j = 1; j < n; j++) grid[0][j] += grid[0][j - 1];
+
+        for (int i = 1; i < m; i++) {
+            for (int j = 1; j < n; j++) {
+                grid[i][j] += min(grid[i - 1][j], grid[i][j - 1]);
+            }
+        }
+
+        return grid[m - 1][n - 1];
+    }
+};
+```
+
+#### LC #221 - Maximal Square
+```cpp
+class Solution {
+public:
+    int maximalSquare(vector<vector<char>>& matrix) {
+        int m = matrix.size(), n = matrix[0].size();
+        vector<vector<int>> dp(m + 1, vector<int>(n + 1, 0));
+        int maxSide = 0;
+
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= n; j++) {
+                if (matrix[i - 1][j - 1] == '1') {
+                    dp[i][j] = min({dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1]}) + 1;
+                    maxSide = max(maxSide, dp[i][j]);
+                }
+            }
+        }
+
+        return maxSide * maxSide;
+    }
+};
+```
+
+#### LC #312 - Burst Balloons
+```cpp
+class Solution {
+public:
+    int maxCoins(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> balloons(n + 2);
+        balloons[0] = balloons[n + 1] = 1;
+        for (int i = 0; i < n; i++) balloons[i + 1] = nums[i];
+
+        vector<vector<int>> dp(n + 2, vector<int>(n + 2, 0));
+
+        for (int len = 1; len <= n; len++) {
+            for (int left = 1; left <= n - len + 1; left++) {
+                int right = left + len - 1;
+
+                for (int k = left; k <= right; k++) {
+                    int coins = balloons[left - 1] * balloons[k] * balloons[right + 1];
+                    coins += dp[left][k - 1] + dp[k + 1][right];
+                    dp[left][right] = max(dp[left][right], coins);
+                }
+            }
+        }
+
+        return dp[1][n];
+    }
+};
+```
+
+#### LC #91 - Decode Ways
+```cpp
+class Solution {
+public:
+    int numDecodings(string s) {
+        if (s.empty() || s[0] == '0') return 0;
+
+        int n = s.length();
+        int prev2 = 1, prev1 = 1;
+
+        for (int i = 1; i < n; i++) {
+            int curr = 0;
+
+            if (s[i] != '0') {
+                curr = prev1;
+            }
+
+            int twoDigit = stoi(s.substr(i - 1, 2));
+            if (twoDigit >= 10 && twoDigit <= 26) {
+                curr += prev2;
+            }
+
+            prev2 = prev1;
+            prev1 = curr;
+        }
+
+        return prev1;
+    }
+};
+```
+
+#### LC #121-122-123-188-309-714 - Stock Problems
+
+##### LC #122 - Best Time II (Unlimited transactions)
+```cpp
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int profit = 0;
+        for (int i = 1; i < prices.size(); i++) {
+            if (prices[i] > prices[i - 1]) {
+                profit += prices[i] - prices[i - 1];
+            }
+        }
+        return profit;
+    }
+};
+```
+
+##### LC #309 - Best Time with Cooldown
+```cpp
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int n = prices.size();
+        if (n < 2) return 0;
+
+        int hold = -prices[0];
+        int sold = 0;
+        int rest = 0;
+
+        for (int i = 1; i < n; i++) {
+            int prevHold = hold;
+            hold = max(hold, rest - prices[i]);
+            rest = max(rest, sold);
+            sold = prevHold + prices[i];
+        }
+
+        return max(sold, rest);
+    }
+};
+```
+
+##### LC #714 - Best Time with Transaction Fee
+```cpp
+class Solution {
+public:
+    int maxProfit(vector<int>& prices, int fee) {
+        int hold = -prices[0];
+        int cash = 0;
+
+        for (int i = 1; i < prices.size(); i++) {
+            hold = max(hold, cash - prices[i]);
+            cash = max(cash, hold + prices[i] - fee);
+        }
+
+        return cash;
+    }
+};
+```
+
+### Interval Solutions
+
+#### LC #56 - Merge Intervals
+```cpp
+class Solution {
+public:
+    vector<vector<int>> merge(vector<vector<int>>& intervals) {
+        sort(intervals.begin(), intervals.end());
+        vector<vector<int>> result;
+
+        for (auto& interval : intervals) {
+            if (result.empty() || result.back()[1] < interval[0]) {
+                result.push_back(interval);
+            } else {
+                result.back()[1] = max(result.back()[1], interval[1]);
+            }
+        }
+
+        return result;
+    }
+};
+```
+
+#### LC #57 - Insert Interval
+```cpp
+class Solution {
+public:
+    vector<vector<int>> insert(vector<vector<int>>& intervals, vector<int>& newInterval) {
+        vector<vector<int>> result;
+        int i = 0, n = intervals.size();
+
+        // Add all intervals before newInterval
+        while (i < n && intervals[i][1] < newInterval[0]) {
+            result.push_back(intervals[i++]);
+        }
+
+        // Merge overlapping intervals
+        while (i < n && intervals[i][0] <= newInterval[1]) {
+            newInterval[0] = min(newInterval[0], intervals[i][0]);
+            newInterval[1] = max(newInterval[1], intervals[i][1]);
+            i++;
+        }
+        result.push_back(newInterval);
+
+        // Add remaining intervals
+        while (i < n) {
+            result.push_back(intervals[i++]);
+        }
+
+        return result;
+    }
+};
+```
+
+#### LC #435 - Non-overlapping Intervals
+```cpp
+class Solution {
+public:
+    int eraseOverlapIntervals(vector<vector<int>>& intervals) {
+        sort(intervals.begin(), intervals.end(), [](auto& a, auto& b) {
+            return a[1] < b[1];
+        });
+
+        int count = 0;
+        int end = INT_MIN;
+
+        for (auto& interval : intervals) {
+            if (interval[0] >= end) {
+                end = interval[1];
+            } else {
+                count++;
+            }
+        }
+
+        return count;
+    }
+};
+```
+
+### Trie Solutions
+
+#### LC #208 - Implement Trie
+```cpp
+class Trie {
+private:
+    struct TrieNode {
+        TrieNode* children[26] = {nullptr};
+        bool isEnd = false;
+    };
+    TrieNode* root;
+
+public:
+    Trie() {
+        root = new TrieNode();
+    }
+
+    void insert(string word) {
+        TrieNode* curr = root;
+        for (char c : word) {
+            int idx = c - 'a';
+            if (!curr->children[idx]) {
+                curr->children[idx] = new TrieNode();
+            }
+            curr = curr->children[idx];
+        }
+        curr->isEnd = true;
+    }
+
+    bool search(string word) {
+        TrieNode* node = find(word);
+        return node && node->isEnd;
+    }
+
+    bool startsWith(string prefix) {
+        return find(prefix) != nullptr;
+    }
+
+private:
+    TrieNode* find(string& s) {
+        TrieNode* curr = root;
+        for (char c : s) {
+            int idx = c - 'a';
+            if (!curr->children[idx]) return nullptr;
+            curr = curr->children[idx];
+        }
+        return curr;
+    }
+};
+```
+
+#### LC #212 - Word Search II
+```cpp
+class Solution {
+public:
+    struct TrieNode {
+        TrieNode* children[26] = {nullptr};
+        string word = "";
+    };
+
+    vector<string> findWords(vector<vector<char>>& board, vector<string>& words) {
+        // Build Trie
+        TrieNode* root = new TrieNode();
+        for (string& word : words) {
+            TrieNode* curr = root;
+            for (char c : word) {
+                int idx = c - 'a';
+                if (!curr->children[idx]) {
+                    curr->children[idx] = new TrieNode();
+                }
+                curr = curr->children[idx];
+            }
+            curr->word = word;
+        }
+
+        vector<string> result;
+        int m = board.size(), n = board[0].size();
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                dfs(board, i, j, root, result);
+            }
+        }
+
+        return result;
+    }
+
+private:
+    void dfs(vector<vector<char>>& board, int i, int j, TrieNode* node, vector<string>& result) {
+        int m = board.size(), n = board[0].size();
+
+        if (i < 0 || i >= m || j < 0 || j >= n || board[i][j] == '#') return;
+
+        char c = board[i][j];
+        TrieNode* next = node->children[c - 'a'];
+        if (!next) return;
+
+        if (!next->word.empty()) {
+            result.push_back(next->word);
+            next->word = "";  // Avoid duplicates
+        }
+
+        board[i][j] = '#';
+        dfs(board, i + 1, j, next, result);
+        dfs(board, i - 1, j, next, result);
+        dfs(board, i, j + 1, next, result);
+        dfs(board, i, j - 1, next, result);
+        board[i][j] = c;
+    }
+};
+```
+
+### Bit Manipulation Solutions
+
+#### LC #136 - Single Number
+```cpp
+class Solution {
+public:
+    int singleNumber(vector<int>& nums) {
+        int result = 0;
+        for (int num : nums) {
+            result ^= num;
+        }
+        return result;
+    }
+};
+```
+
+#### LC #137 - Single Number II
+```cpp
+class Solution {
+public:
+    int singleNumber(vector<int>& nums) {
+        int ones = 0, twos = 0;
+        for (int num : nums) {
+            ones = (ones ^ num) & ~twos;
+            twos = (twos ^ num) & ~ones;
+        }
+        return ones;
+    }
+};
+```
+
+#### LC #268 - Missing Number
+```cpp
+class Solution {
+public:
+    int missingNumber(vector<int>& nums) {
+        int n = nums.size();
+        int result = n;
+        for (int i = 0; i < n; i++) {
+            result ^= i ^ nums[i];
+        }
+        return result;
+    }
+};
+```
+
+#### LC #191 - Number of 1 Bits
+```cpp
+class Solution {
+public:
+    int hammingWeight(uint32_t n) {
+        int count = 0;
+        while (n) {
+            n &= (n - 1);  // Remove rightmost 1 bit
+            count++;
+        }
+        return count;
+    }
+};
+```
+
+### Union Find Solutions
+
+#### LC #684 - Redundant Connection
+```cpp
+class Solution {
+public:
+    vector<int> parent;
+
+    int find(int x) {
+        if (parent[x] != x) {
+            parent[x] = find(parent[x]);
+        }
+        return parent[x];
+    }
+
+    vector<int> findRedundantConnection(vector<vector<int>>& edges) {
+        int n = edges.size();
+        parent.resize(n + 1);
+        for (int i = 0; i <= n; i++) parent[i] = i;
+
+        for (auto& edge : edges) {
+            int px = find(edge[0]);
+            int py = find(edge[1]);
+
+            if (px == py) return edge;  // Cycle detected
+
+            parent[px] = py;
+        }
+
+        return {};
+    }
+};
+```
+
+#### LC #721 - Accounts Merge
+```cpp
+class Solution {
+public:
+    unordered_map<string, string> parent;
+
+    string find(string s) {
+        if (parent[s] != s) {
+            parent[s] = find(parent[s]);
+        }
+        return parent[s];
+    }
+
+    vector<vector<string>> accountsMerge(vector<vector<string>>& accounts) {
+        unordered_map<string, string> emailToName;
+
+        // Initialize parent
+        for (auto& account : accounts) {
+            string name = account[0];
+            for (int i = 1; i < account.size(); i++) {
+                parent[account[i]] = account[i];
+                emailToName[account[i]] = name;
+            }
+        }
+
+        // Union emails in same account
+        for (auto& account : accounts) {
+            string root = find(account[1]);
+            for (int i = 2; i < account.size(); i++) {
+                parent[find(account[i])] = root;
+            }
+        }
+
+        // Group emails by root
+        unordered_map<string, set<string>> groups;
+        for (auto& [email, _] : emailToName) {
+            groups[find(email)].insert(email);
+        }
+
+        // Build result
+        vector<vector<string>> result;
+        for (auto& [root, emails] : groups) {
+            vector<string> account = {emailToName[root]};
+            for (const string& email : emails) {
+                account.push_back(email);
+            }
+            result.push_back(account);
+        }
+
+        return result;
+    }
+};
+```
+
+---
+
+## Quick Reference: Problem to Pattern Mapping
+
+### When You See... Use This Pattern
+
+| Problem Characteristic | Pattern to Use |
+|----------------------|----------------|
+| "Find all permutations/combinations/subsets" | Backtracking |
+| "Find shortest path in unweighted graph" | BFS |
+| "Find connected components" | DFS / Union Find |
+| "Detect cycle in graph" | DFS (directed) / Union Find (undirected) |
+| "Top K / Kth largest/smallest" | Heap |
+| "Find median in stream" | Two Heaps |
+| "Subarray/substring with condition" | Sliding Window |
+| "Sorted array search" | Binary Search |
+| "Find pair/triplet with sum" | Two Pointers (if sorted) |
+| "Dependency ordering" | Topological Sort |
+| "Overlapping intervals" | Sort + Merge |
+| "Maximum/minimum with choices" | Dynamic Programming |
+| "Next greater/smaller element" | Monotonic Stack |
+| "String prefix matching" | Trie |
+| "Count subarrays with property" | Prefix Sum + Hash Map |
+| "Grid traversal" | DFS / BFS |
+| "Shortest path with weights" | Dijkstra |
+| "Can partition into groups" | Union Find |
+
+### Common DP State Transitions
+
+| Problem Type | State Definition | Transition |
+|-------------|------------------|------------|
+| Fibonacci | dp[i] = ways to reach i | dp[i] = dp[i-1] + dp[i-2] |
+| House Robber | dp[i] = max profit up to i | dp[i] = max(dp[i-1], dp[i-2] + nums[i]) |
+| Coin Change | dp[i] = min coins for amount i | dp[i] = min(dp[i], dp[i-coin] + 1) |
+| LCS | dp[i][j] = LCS of s1[0..i], s2[0..j] | if match: dp[i-1][j-1]+1, else: max(dp[i-1][j], dp[i][j-1]) |
+| LIS | dp[i] = LIS ending at i | dp[i] = max(dp[j] + 1) for j < i where a[j] < a[i] |
+| Edit Distance | dp[i][j] = edit dist for s1[0..i], s2[0..j] | if match: dp[i-1][j-1], else: 1 + min(ins, del, rep) |
+| Knapsack 0/1 | dp[i][w] = max value with i items, capacity w | dp[i][w] = max(dp[i-1][w], dp[i-1][w-wt[i]] + val[i]) |
+| Palindrome | dp[i][j] = is s[i..j] palindrome? | dp[i][j] = s[i]==s[j] && dp[i+1][j-1] |
+
+---
+
+## Total Problems Covered: 150+
+
+**Categories:**
+- Array: 15 problems
+- Two Pointers: 12 problems
+- Sliding Window: 8 problems
+- Binary Search: 12 problems
+- Linked List: 12 problems
+- Stack: 6 problems
+- Monotonic Stack: 5 problems
+- Tree: 18 problems
+- Graph: 15 problems
+- Heap: 8 problems
+- Backtracking: 12 problems
+- Dynamic Programming: 25 problems
+- Intervals: 4 problems
+- Trie: 3 problems
+- Bit Manipulation: 4 problems
+- Union Find: 3 problems
+
+**Good luck with your interviews!**
