@@ -4037,6 +4037,9 @@ string alienOrder(vector<string>& words) {
 ### Array Solutions
 
 #### LC #53 - Maximum Subarray (Kadane's Algorithm)
+**Problem:** Given an integer array `nums`, find the subarray with the largest sum, and return its sum.
+- Example: `nums = [-2,1,-3,4,-1,2,1,-5,4]` → Output: `6` (subarray `[4,-1,2,1]`)
+
 ```cpp
 class Solution {
 public:
@@ -4055,6 +4058,9 @@ public:
 ```
 
 #### LC #121 - Best Time to Buy and Sell Stock
+**Problem:** Given array `prices` where `prices[i]` is the price on day i. Choose a day to buy and a future day to sell. Return the maximum profit (or 0 if no profit possible).
+- Example: `prices = [7,1,5,3,6,4]` → Output: `5` (buy at 1, sell at 6)
+
 ```cpp
 class Solution {
 public:
@@ -4073,6 +4079,10 @@ public:
 ```
 
 #### LC #152 - Maximum Product Subarray
+**Problem:** Given an integer array `nums`, find a subarray that has the largest product, and return the product.
+- Example: `nums = [2,3,-2,4]` → Output: `6` (subarray `[2,3]`)
+- Example: `nums = [-2,0,-1]` → Output: `0`
+
 ```cpp
 class Solution {
 public:
@@ -4096,6 +4106,9 @@ public:
 ```
 
 #### LC #238 - Product of Array Except Self
+**Problem:** Given an integer array `nums`, return an array `answer` such that `answer[i]` equals the product of all elements of `nums` except `nums[i]`. Solve in O(n) without using division.
+- Example: `nums = [1,2,3,4]` → Output: `[24,12,8,6]`
+
 ```cpp
 class Solution {
 public:
@@ -4123,6 +4136,9 @@ public:
 ```
 
 #### LC #41 - First Missing Positive
+**Problem:** Given an unsorted integer array `nums`, return the smallest positive integer that is not present in `nums`. Must run in O(n) time and O(1) auxiliary space.
+- Example: `nums = [3,4,-1,1]` → Output: `2`
+- Example: `nums = [1,2,0]` → Output: `3`
 ```cpp
 class Solution {
 public:
@@ -4147,6 +4163,9 @@ public:
 ```
 
 #### LC #287 - Find the Duplicate Number
+**Problem:** Given an array of n+1 integers where each integer is in range [1, n], find the one duplicate number. Must use O(1) space and not modify the array.
+- Example: `nums = [1,3,4,2,2]` → Output: `2`
+
 ```cpp
 class Solution {
 public:
@@ -4172,6 +4191,9 @@ public:
 ```
 
 #### LC #169 - Majority Element (Boyer-Moore Voting)
+**Problem:** Given an array `nums` of size n, return the majority element (appears more than ⌊n/2⌋ times). The majority element always exists.
+- Example: `nums = [3,2,3]` → Output: `3`
+
 ```cpp
 class Solution {
 public:
@@ -4192,6 +4214,10 @@ public:
 ```
 
 #### LC #229 - Majority Element II
+**Problem:** Given an integer array, find all elements that appear more than ⌊n/3⌋ times.
+- Example: `nums = [3,2,3]` → Output: `[3]`
+- Example: `nums = [1,2]` → Output: `[1,2]`
+
 ```cpp
 class Solution {
 public:
@@ -4235,6 +4261,8 @@ public:
 ```
 
 #### LC #189 - Rotate Array
+**Problem:** Given an integer array `nums`, rotate the array to the right by `k` steps.
+- Example: `nums = [1,2,3,4,5,6,7], k = 3` → Output: `[5,6,7,1,2,3,4]`
 ```cpp
 class Solution {
 public:
@@ -4252,6 +4280,9 @@ public:
 ### Two Pointers Solutions
 
 #### LC #1 - Two Sum
+**Problem:** Given an array of integers `nums` and an integer `target`, return indices of the two numbers that add up to `target`. Each input has exactly one solution.
+- Example: `nums = [2,7,11,15], target = 9` → Output: `[0,1]`
+
 ```cpp
 class Solution {
 public:
@@ -4272,6 +4303,9 @@ public:
 ```
 
 #### LC #167 - Two Sum II (Sorted Array)
+**Problem:** Given a 1-indexed array `numbers` sorted in non-decreasing order, find two numbers that add up to `target`. Return their indices (1-indexed).
+- Example: `numbers = [2,7,11,15], target = 9` → Output: `[1,2]`
+
 ```cpp
 class Solution {
 public:
@@ -4295,6 +4329,9 @@ public:
 ```
 
 #### LC #15 - 3Sum
+**Problem:** Given an integer array `nums`, return all triplets `[nums[i], nums[j], nums[k]]` such that i != j != k and `nums[i] + nums[j] + nums[k] == 0`. No duplicate triplets.
+- Example: `nums = [-1,0,1,2,-1,-4]` → Output: `[[-1,-1,2],[-1,0,1]]`
+
 ```cpp
 class Solution {
 public:
@@ -4331,6 +4368,9 @@ public:
 ```
 
 #### LC #16 - 3Sum Closest
+**Problem:** Given an integer array `nums` and an integer `target`, find three integers whose sum is closest to `target`. Return the sum.
+- Example: `nums = [-1,2,1,-4], target = 1` → Output: `2` (sum of -1+2+1)
+
 ```cpp
 class Solution {
 public:
@@ -4365,6 +4405,9 @@ public:
 ```
 
 #### LC #11 - Container With Most Water
+**Problem:** Given `n` non-negative integers `height[i]` representing vertical lines, find two lines that together with the x-axis forms a container that holds the most water.
+- Example: `height = [1,8,6,2,5,4,8,3,7]` → Output: `49`
+
 ```cpp
 class Solution {
 public:
@@ -4390,6 +4433,8 @@ public:
 ```
 
 #### LC #42 - Trapping Rain Water
+**Problem:** Given `n` non-negative integers representing an elevation map where width of each bar is 1, compute how much water it can trap after raining.
+- Example: `height = [0,1,0,2,1,0,1,3,2,1,2,1]` → Output: `6`
 ```cpp
 class Solution {
 public:
@@ -4422,6 +4467,9 @@ public:
 ```
 
 #### LC #125 - Valid Palindrome
+**Problem:** A phrase is a palindrome if it reads the same forward and backward after converting to lowercase and removing non-alphanumeric characters.
+- Example: `s = "A man, a plan, a canal: Panama"` → Output: `true`
+
 ```cpp
 class Solution {
 public:
@@ -4446,6 +4494,9 @@ public:
 ```
 
 #### LC #26 - Remove Duplicates from Sorted Array
+**Problem:** Given a sorted array `nums`, remove duplicates in-place so each unique element appears once. Return the number of unique elements.
+- Example: `nums = [1,1,2]` → Output: `2`, nums = `[1,2,_]`
+
 ```cpp
 class Solution {
 public:
@@ -4466,6 +4517,9 @@ public:
 ```
 
 #### LC #283 - Move Zeroes
+**Problem:** Given integer array `nums`, move all 0's to the end while maintaining relative order of non-zero elements. Must be in-place.
+- Example: `nums = [0,1,0,3,12]` → Output: `[1,3,12,0,0]`
+
 ```cpp
 class Solution {
 public:
@@ -4483,6 +4537,9 @@ public:
 ```
 
 #### LC #88 - Merge Sorted Array
+**Problem:** Given two sorted arrays `nums1` and `nums2`, merge `nums2` into `nums1` as one sorted array. `nums1` has length m+n where first m elements are to merge and last n are 0s.
+- Example: `nums1 = [1,2,3,0,0,0], m = 3, nums2 = [2,5,6], n = 3` → Output: `[1,2,2,3,5,6]`
+
 ```cpp
 class Solution {
 public:
@@ -4507,6 +4564,10 @@ public:
 ### Sliding Window Solutions
 
 #### LC #3 - Longest Substring Without Repeating Characters
+**Problem:** Given a string `s`, find the length of the longest substring without repeating characters.
+- Example: `s = "abcabcbb"` → Output: `3` (substring "abc")
+- Example: `s = "bbbbb"` → Output: `1`
+
 ```cpp
 class Solution {
 public:
@@ -4530,6 +4591,8 @@ public:
 ```
 
 #### LC #76 - Minimum Window Substring
+**Problem:** Given strings `s` and `t`, return the minimum window substring of `s` that contains all characters of `t`. If no such substring exists, return empty string.
+- Example: `s = "ADOBECODEBANC", t = "ABC"` → Output: `"BANC"`
 ```cpp
 class Solution {
 public:
@@ -4575,6 +4638,9 @@ public:
 ```
 
 #### LC #209 - Minimum Size Subarray Sum
+**Problem:** Given array of positive integers `nums` and a positive integer `target`, return the minimal length of a subarray whose sum is >= target. If none exists, return 0.
+- Example: `target = 7, nums = [2,3,1,2,4,3]` → Output: `2` (subarray `[4,3]`)
+
 ```cpp
 class Solution {
 public:
@@ -4599,6 +4665,9 @@ public:
 ```
 
 #### LC #424 - Longest Repeating Character Replacement
+**Problem:** Given string `s` and integer `k`, you can choose any character and change it to any other uppercase letter. You can perform this at most `k` times. Return the length of the longest substring containing the same letter.
+- Example: `s = "AABABBA", k = 1` → Output: `4` (replace one 'A' to get "AABBBBA")
+
 ```cpp
 class Solution {
 public:
@@ -4627,6 +4696,9 @@ public:
 ```
 
 #### LC #567 - Permutation in String
+**Problem:** Given two strings `s1` and `s2`, return true if `s2` contains a permutation of `s1`.
+- Example: `s1 = "ab", s2 = "eidbaooo"` → Output: `true` (s2 contains "ba")
+
 ```cpp
 class Solution {
 public:
@@ -4655,6 +4727,9 @@ public:
 ```
 
 #### LC #438 - Find All Anagrams in a String
+**Problem:** Given two strings `s` and `p`, return an array of all start indices of `p`'s anagrams in `s`.
+- Example: `s = "cbaebabacd", p = "abc"` → Output: `[0,6]`
+
 ```cpp
 class Solution {
 public:
@@ -4684,6 +4759,9 @@ public:
 ```
 
 #### LC #239 - Sliding Window Maximum
+**Problem:** Given an array `nums` and a sliding window of size `k` moving from left to right, return the max value in each window position.
+- Example: `nums = [1,3,-1,-3,5,3,6,7], k = 3` → Output: `[3,3,5,5,6,7]`
+
 ```cpp
 class Solution {
 public:
@@ -4717,6 +4795,9 @@ public:
 ### Binary Search Solutions
 
 #### LC #704 - Binary Search
+**Problem:** Given a sorted array of integers `nums` and a target value, return the index if target is found. If not, return -1.
+- Example: `nums = [-1,0,3,5,9,12], target = 9` → Output: `4`
+
 ```cpp
 class Solution {
 public:
@@ -4741,6 +4822,8 @@ public:
 ```
 
 #### LC #33 - Search in Rotated Sorted Array
+**Problem:** A sorted array is rotated at some pivot unknown beforehand (e.g., `[0,1,2,4,5,6,7]` might become `[4,5,6,7,0,1,2]`). Given target, return its index or -1 if not found. O(log n) required.
+- Example: `nums = [4,5,6,7,0,1,2], target = 0` → Output: `4`
 ```cpp
 class Solution {
 public:
@@ -4798,6 +4881,9 @@ public:
 ```
 
 #### LC #34 - Find First and Last Position
+**Problem:** Given a sorted array of integers `nums` and a target value, find the starting and ending position of target. Return `[-1, -1]` if not found. O(log n) required.
+- Example: `nums = [5,7,7,8,8,10], target = 8` → Output: `[3,4]`
+
 ```cpp
 class Solution {
 public:
@@ -4849,6 +4935,8 @@ private:
 ```
 
 #### LC #162 - Find Peak Element
+**Problem:** A peak element is greater than its neighbors. Given array `nums`, find any peak element and return its index. Array may contain multiple peaks.
+- Example: `nums = [1,2,3,1]` → Output: `2` (index of value 3)
 ```cpp
 class Solution {
 public:
@@ -4871,6 +4959,9 @@ public:
 ```
 
 #### LC #875 - Koko Eating Bananas
+**Problem:** Koko loves bananas. There are n piles of bananas, pile i has `piles[i]` bananas. Guards return in `h` hours. Koko can eat `k` bananas/hour. Find the minimum integer `k` to eat all bananas within h hours.
+- Example: `piles = [3,6,7,11], h = 8` → Output: `4`
+
 ```cpp
 class Solution {
 public:
@@ -4903,6 +4994,9 @@ private:
 ```
 
 #### LC #1011 - Capacity To Ship Packages
+**Problem:** A conveyor belt has packages with weights. Ship must ship in order. Given `days` days, find the minimum capacity of the ship.
+- Example: `weights = [1,2,3,4,5,6,7,8,9,10], days = 5` → Output: `15`
+
 ```cpp
 class Solution {
 public:
@@ -4942,6 +5036,9 @@ private:
 ```
 
 #### LC #74 - Search a 2D Matrix
+**Problem:** Write an efficient algorithm to search a target in an m x n integer matrix. Each row is sorted, and first integer of each row is greater than the last integer of the previous row.
+- Example: `matrix = [[1,3,5,7],[10,11,16,20],[23,30,34,60]], target = 3` → Output: `true`
+
 ```cpp
 class Solution {
 public:
@@ -4968,6 +5065,8 @@ public:
 ```
 
 #### LC #240 - Search a 2D Matrix II
+**Problem:** Write an efficient algorithm to search target in m x n matrix. Integers in each row are sorted left to right. Integers in each column are sorted top to bottom.
+- Example: `matrix = [[1,4,7],[2,5,8],[3,6,9]], target = 5` → Output: `true`
 ```cpp
 class Solution {
 public:
@@ -5024,6 +5123,9 @@ public:
 ```
 
 #### LC #92 - Reverse Linked List II
+**Problem:** Given the head of a linked list, reverse the nodes from position `left` to position `right`, and return the reversed list.
+- Example: `head = [1,2,3,4,5], left = 2, right = 4` → Output: `[1,4,3,2,5]`
+
 ```cpp
 class Solution {
 public:
@@ -5053,6 +5155,8 @@ public:
 ```
 
 #### LC #25 - Reverse Nodes in k-Group
+**Problem:** Given a linked list, reverse every k nodes. If remaining nodes < k, leave them as is.
+- Example: `head = [1,2,3,4,5], k = 2` → Output: `[2,1,4,3,5]`
 ```cpp
 class Solution {
 public:
@@ -5097,6 +5201,9 @@ private:
 ```
 
 #### LC #141 - Linked List Cycle
+**Problem:** Given the head of a linked list, determine if the linked list has a cycle in it. Return true if there is a cycle, false otherwise.
+- Example: `head = [3,2,0,-4]` (with -4 pointing back to 2) → Output: `true`
+
 ```cpp
 class Solution {
 public:
@@ -5115,6 +5222,9 @@ public:
 ```
 
 #### LC #142 - Linked List Cycle II
+**Problem:** Given the head of a linked list, return the node where the cycle begins. If there is no cycle, return null.
+- Example: `head = [3,2,0,-4]` (with -4 pointing back to 2) → Output: node with value 2
+
 ```cpp
 class Solution {
 public:
@@ -5141,6 +5251,8 @@ public:
 ```
 
 #### LC #19 - Remove Nth Node From End
+**Problem:** Given the head of a linked list, remove the nth node from the end of the list and return its head.
+- Example: `head = [1,2,3,4,5], n = 2` → Output: `[1,2,3,5]`
 ```cpp
 class Solution {
 public:
@@ -5169,6 +5281,9 @@ public:
 ```
 
 #### LC #21 - Merge Two Sorted Lists
+**Problem:** Merge two sorted linked lists and return as one sorted list. The list should be made by splicing together the nodes.
+- Example: `l1 = [1,2,4], l2 = [1,3,4]` → Output: `[1,1,2,3,4,4]`
+
 ```cpp
 class Solution {
 public:
@@ -5194,6 +5309,8 @@ public:
 ```
 
 #### LC #23 - Merge k Sorted Lists
+**Problem:** You are given an array of k linked-lists, each sorted in ascending order. Merge all linked-lists into one sorted list.
+- Example: `lists = [[1,4,5],[1,3,4],[2,6]]` → Output: `[1,1,2,3,4,4,5,6]`
 ```cpp
 class Solution {
 public:
@@ -5226,6 +5343,9 @@ public:
 ```
 
 #### LC #143 - Reorder List
+**Problem:** Given the head of a singly linked list L0→L1→...→Ln-1→Ln, reorder it to L0→Ln→L1→Ln-1→L2→Ln-2→...
+- Example: `[1,2,3,4]` → Output: `[1,4,2,3]`
+- Example: `[1,2,3,4,5]` → Output: `[1,5,2,4,3]`
 ```cpp
 class Solution {
 public:
@@ -5272,6 +5392,8 @@ private:
 ```
 
 #### LC #138 - Copy List with Random Pointer
+**Problem:** A linked list of length n where each node has a random pointer pointing to any node or null. Construct a deep copy of the list.
+- Example: `[[7,null],[13,0],[11,4],[10,2],[1,0]]` → Output: Deep copy with same structure
 ```cpp
 class Solution {
 public:
@@ -5303,6 +5425,9 @@ public:
 ### Stack Solutions
 
 #### LC #20 - Valid Parentheses
+**Problem:** Given a string containing just '(', ')', '{', '}', '[' and ']', determine if the input string is valid. Open brackets must be closed by the same type and in the correct order.
+- Example: `"()[]{}"` → Output: `true`
+- Example: `"(]"` → Output: `false`
 ```cpp
 class Solution {
 public:
@@ -5325,6 +5450,8 @@ public:
 ```
 
 #### LC #155 - Min Stack
+**Problem:** Design a stack that supports push, pop, top, and retrieving the minimum element in constant time.
+- `push(val)`, `pop()`, `top()`, `getMin()` - all O(1) operations
 ```cpp
 class MinStack {
 private:
@@ -5357,6 +5484,8 @@ public:
 ```
 
 #### LC #150 - Evaluate Reverse Polish Notation
+**Problem:** Evaluate the value of an arithmetic expression in Reverse Polish Notation. Valid operators are +, -, *, /. Each operand may be an integer or another expression.
+- Example: `["2","1","+","3","*"]` → Output: `9` (i.e., (2 + 1) * 3)
 ```cpp
 class Solution {
 public:
@@ -5383,6 +5512,9 @@ public:
 ```
 
 #### LC #394 - Decode String
+**Problem:** Given an encoded string, return its decoded string. The encoding rule is: k[encoded_string], where the encoded_string inside square brackets is repeated exactly k times.
+- Example: `"3[a]2[bc]"` → Output: `"aaabcbc"`
+- Example: `"3[a2[c]]"` → Output: `"accaccacc"`
 ```cpp
 class Solution {
 public:
@@ -5422,6 +5554,8 @@ public:
 ### Monotonic Stack Solutions
 
 #### LC #496 - Next Greater Element I
+**Problem:** Given nums1 (subset of nums2), find the next greater element for each element in nums1. The next greater element of x in nums2 is the first greater element to its right.
+- Example: `nums1 = [4,1,2], nums2 = [1,3,4,2]` → Output: `[-1,3,-1]`
 ```cpp
 class Solution {
 public:
@@ -5448,6 +5582,8 @@ public:
 ```
 
 #### LC #739 - Daily Temperatures
+**Problem:** Given an array of daily temperatures, return how many days you have to wait until a warmer temperature. If no future day is warmer, put 0.
+- Example: `[73,74,75,71,69,72,76,73]` → Output: `[1,1,4,2,1,1,0,0]`
 ```cpp
 class Solution {
 public:
@@ -5471,6 +5607,8 @@ public:
 ```
 
 #### LC #84 - Largest Rectangle in Histogram
+**Problem:** Given an array of integers heights representing the histogram's bar heights (width 1), return the area of the largest rectangle in the histogram.
+- Example: `[2,1,5,6,2,3]` → Output: `10` (5x2 rectangle)
 ```cpp
 class Solution {
 public:
@@ -5498,6 +5636,8 @@ public:
 ```
 
 #### LC #85 - Maximal Rectangle
+**Problem:** Given a binary matrix filled with 0's and 1's, find the largest rectangle containing only 1's and return its area.
+- Example: `[["1","0","1","0","0"],["1","0","1","1","1"],["1","1","1","1","1"],["1","0","0","1","0"]]` → Output: `6`
 ```cpp
 class Solution {
 public:
@@ -5547,6 +5687,8 @@ private:
 ### Tree Solutions
 
 #### LC #102 - Binary Tree Level Order Traversal
+**Problem:** Given the root of a binary tree, return the level order traversal of its nodes' values (i.e., from left to right, level by level).
+- Example: `root = [3,9,20,null,null,15,7]` → Output: `[[3],[9,20],[15,7]]`
 ```cpp
 class Solution {
 public:
@@ -5578,7 +5720,9 @@ public:
 };
 ```
 
-#### LC #103 - Binary Tree Zigzag Level Order
+#### LC #103 - Binary Tree Zigzag Level Order Traversal
+**Problem:** Given the root of a binary tree, return the zigzag level order traversal (left-to-right, then right-to-left for next level, and alternate).
+- Example: `root = [3,9,20,null,null,15,7]` → Output: `[[3],[20,9],[15,7]]`
 ```cpp
 class Solution {
 public:
@@ -5615,6 +5759,8 @@ public:
 ```
 
 #### LC #104 - Maximum Depth of Binary Tree
+**Problem:** Given the root of a binary tree, return its maximum depth. Maximum depth is the number of nodes along the longest path from root to farthest leaf.
+- Example: `root = [3,9,20,null,null,15,7]` → Output: `3`
 ```cpp
 class Solution {
 public:
@@ -5626,6 +5772,8 @@ public:
 ```
 
 #### LC #226 - Invert Binary Tree
+**Problem:** Given the root of a binary tree, invert the tree, and return its root (swap left and right children at each node).
+- Example: `root = [4,2,7,1,3,6,9]` → Output: `[4,7,2,9,6,3,1]`
 ```cpp
 class Solution {
 public:
@@ -5642,6 +5790,9 @@ public:
 ```
 
 #### LC #101 - Symmetric Tree
+**Problem:** Given the root of a binary tree, check whether it is a mirror of itself (symmetric around its center).
+- Example: `root = [1,2,2,3,4,4,3]` → Output: `true`
+- Example: `root = [1,2,2,null,3,null,3]` → Output: `false`
 ```cpp
 class Solution {
 public:
@@ -5662,6 +5813,8 @@ private:
 ```
 
 #### LC #112 - Path Sum
+**Problem:** Given the root of a binary tree and an integer targetSum, return true if the tree has a root-to-leaf path such that adding up all values equals targetSum.
+- Example: `root = [5,4,8,11,null,13,4,7,2,null,null,null,1], targetSum = 22` → Output: `true` (5→4→11→2)
 ```cpp
 class Solution {
 public:
@@ -5679,6 +5832,8 @@ public:
 ```
 
 #### LC #113 - Path Sum II
+**Problem:** Given the root of a binary tree and an integer targetSum, return all root-to-leaf paths where the sum of node values equals targetSum.
+- Example: `root = [5,4,8,11,null,13,4,7,2,null,null,5,1], targetSum = 22` → Output: `[[5,4,11,2],[5,8,4,5]]`
 ```cpp
 class Solution {
 public:
@@ -5708,6 +5863,8 @@ private:
 ```
 
 #### LC #437 - Path Sum III
+**Problem:** Given the root of a binary tree and an integer targetSum, return the number of paths where the sum of values equals targetSum. The path does not need to start at root or end at a leaf, but must go downwards.
+- Example: `root = [10,5,-3,3,2,null,11,3,-2,null,1], targetSum = 8` → Output: `3`
 ```cpp
 class Solution {
 public:
@@ -5735,6 +5892,8 @@ private:
 ```
 
 #### LC #124 - Binary Tree Maximum Path Sum
+**Problem:** Given the root of a binary tree, return the maximum path sum of any non-empty path. A path can start and end at any node.
+- Example: `root = [-10,9,20,null,null,15,7]` → Output: `42` (path: 15→20→7)
 ```cpp
 class Solution {
 public:
@@ -5762,6 +5921,8 @@ private:
 ```
 
 #### LC #543 - Diameter of Binary Tree
+**Problem:** Given the root of a binary tree, return the length of the diameter. The diameter is the longest path between any two nodes (may not pass through root). The length is the number of edges.
+- Example: `root = [1,2,3,4,5]` → Output: `3` (path: 4→2→1→3 or 5→2→1→3)
 ```cpp
 class Solution {
 public:
@@ -5785,7 +5946,9 @@ private:
 };
 ```
 
-#### LC #236 - Lowest Common Ancestor
+#### LC #236 - Lowest Common Ancestor of a Binary Tree
+**Problem:** Given a binary tree, find the lowest common ancestor (LCA) of two given nodes p and q. LCA is the deepest node that has both p and q as descendants.
+- Example: `root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 1` → Output: `3`
 ```cpp
 class Solution {
 public:
@@ -5802,6 +5965,9 @@ public:
 ```
 
 #### LC #98 - Validate Binary Search Tree
+**Problem:** Given the root of a binary tree, determine if it is a valid binary search tree (BST). A valid BST has left subtree values < node value < right subtree values.
+- Example: `root = [2,1,3]` → Output: `true`
+- Example: `root = [5,1,4,null,null,3,6]` → Output: `false`
 ```cpp
 class Solution {
 public:
@@ -5821,7 +5987,10 @@ private:
 };
 ```
 
-#### LC #230 - Kth Smallest Element in BST
+#### LC #230 - Kth Smallest Element in a BST
+**Problem:** Given the root of a binary search tree and an integer k, return the kth smallest value (1-indexed) of all the values of the nodes in the tree.
+- Example: `root = [3,1,4,null,2], k = 1` → Output: `1`
+- Example: `root = [5,3,6,2,4,null,null,1], k = 3` → Output: `3`
 ```cpp
 class Solution {
 public:
@@ -5850,6 +6019,8 @@ public:
 ```
 
 #### LC #199 - Binary Tree Right Side View
+**Problem:** Given the root of a binary tree, imagine yourself standing on the right side of it, return the values of the nodes you can see ordered from top to bottom.
+- Example: `root = [1,2,3,null,5,null,4]` → Output: `[1,3,4]`
 ```cpp
 class Solution {
 public:
@@ -5881,7 +6052,9 @@ public:
 };
 ```
 
-#### LC #105 - Construct Tree from Preorder and Inorder
+#### LC #105 - Construct Binary Tree from Preorder and Inorder Traversal
+**Problem:** Given two integer arrays preorder and inorder where preorder is the preorder traversal and inorder is the inorder traversal, construct and return the binary tree.
+- Example: `preorder = [3,9,20,15,7], inorder = [9,3,15,20,7]` → Output: `[3,9,20,null,null,15,7]`
 ```cpp
 class Solution {
 public:
@@ -5914,6 +6087,8 @@ private:
 ```
 
 #### LC #114 - Flatten Binary Tree to Linked List
+**Problem:** Given the root of a binary tree, flatten the tree into a "linked list". The linked list should use the same TreeNode class with right pointing to next node and left always null. The list should be in preorder traversal order.
+- Example: `root = [1,2,5,3,4,null,6]` → Output: `[1,null,2,null,3,null,4,null,5,null,6]`
 ```cpp
 class Solution {
 public:
@@ -5943,6 +6118,8 @@ public:
 ### Graph Solutions
 
 #### LC #200 - Number of Islands
+**Problem:** Given an m x n 2D binary grid representing a map of '1's (land) and '0's (water), return the number of islands. An island is surrounded by water and formed by connecting adjacent lands horizontally or vertically.
+- Example: `grid = [["1","1","0","0","0"],["1","1","0","0","0"],["0","0","1","0","0"],["0","0","0","1","1"]]` → Output: `3`
 ```cpp
 class Solution {
 public:
@@ -5980,6 +6157,8 @@ private:
 ```
 
 #### LC #695 - Max Area of Island
+**Problem:** Given an m x n binary matrix grid, return the maximum area of an island. An island is a group of 1's connected 4-directionally. The area is the number of cells with value 1 in the island.
+- Example: `grid = [[0,0,1,0,0,0,0,1,0,0,0,0,0],[0,0,0,0,0,0,0,1,1,1,0,0,0],...]` → Output: `6`
 ```cpp
 class Solution {
 public:
@@ -6014,6 +6193,8 @@ private:
 ```
 
 #### LC #994 - Rotting Oranges
+**Problem:** In a grid, 0=empty, 1=fresh orange, 2=rotten orange. Every minute, fresh oranges adjacent to rotten ones become rotten. Return minimum minutes for all oranges to rot, or -1 if impossible.
+- Example: `grid = [[2,1,1],[1,1,0],[0,1,1]]` → Output: `4`
 ```cpp
 class Solution {
 public:
@@ -6067,6 +6248,8 @@ public:
 ```
 
 #### LC #133 - Clone Graph
+**Problem:** Given a reference of a node in a connected undirected graph, return a deep copy (clone) of the graph. Each node contains a value and a list of its neighbors.
+- Example: `adjList = [[2,4],[1,3],[2,4],[1,3]]` → Output: Deep copy of the graph
 ```cpp
 class Solution {
 public:
@@ -6096,6 +6279,9 @@ private:
 ```
 
 #### LC #207 - Course Schedule
+**Problem:** There are numCourses courses labeled 0 to numCourses-1. Given prerequisites array where prerequisites[i] = [ai, bi] means you must take course bi before ai. Return true if you can finish all courses.
+- Example: `numCourses = 2, prerequisites = [[1,0]]` → Output: `true`
+- Example: `numCourses = 2, prerequisites = [[1,0],[0,1]]` → Output: `false` (cycle exists)
 ```cpp
 class Solution {
 public:
@@ -6132,6 +6318,8 @@ public:
 ```
 
 #### LC #210 - Course Schedule II
+**Problem:** Same as Course Schedule, but return the ordering of courses you should take to finish all courses. Return empty array if impossible.
+- Example: `numCourses = 4, prerequisites = [[1,0],[2,0],[3,1],[3,2]]` → Output: `[0,2,1,3]` or `[0,1,2,3]`
 ```cpp
 class Solution {
 public:
@@ -6168,6 +6356,8 @@ public:
 ```
 
 #### LC #127 - Word Ladder
+**Problem:** Given beginWord, endWord, and a wordList, find the length of the shortest transformation sequence from beginWord to endWord. Only one letter can be changed at a time and each transformed word must exist in the wordList.
+- Example: `beginWord = "hit", endWord = "cog", wordList = ["hot","dot","dog","lot","log","cog"]` → Output: `5` (hit→hot→dot→dog→cog)
 ```cpp
 class Solution {
 public:
@@ -6213,6 +6403,8 @@ public:
 ```
 
 #### LC #743 - Network Delay Time (Dijkstra)
+**Problem:** You have a network of n nodes labeled 1 to n. Given times array where times[i] = (ui, vi, wi) is a directed edge with travel time wi. A signal is sent from node k. Return minimum time for all nodes to receive the signal, or -1 if impossible.
+- Example: `times = [[2,1,1],[2,3,1],[3,4,1]], n = 4, k = 2` → Output: `2`
 ```cpp
 class Solution {
 public:
@@ -6249,7 +6441,10 @@ public:
 };
 ```
 
-#### LC #785 - Is Graph Bipartite
+#### LC #785 - Is Graph Bipartite?
+**Problem:** Given an undirected graph represented as adjacency list, return true if it is bipartite. A graph is bipartite if we can split nodes into two sets such that every edge connects nodes from different sets.
+- Example: `graph = [[1,2,3],[0,2],[0,1,3],[0,2]]` → Output: `false`
+- Example: `graph = [[1,3],[0,2],[1,3],[0,2]]` → Output: `true`
 ```cpp
 class Solution {
 public:
@@ -6293,7 +6488,9 @@ private:
 };
 ```
 
-#### LC #329 - Longest Increasing Path in Matrix
+#### LC #329 - Longest Increasing Path in a Matrix
+**Problem:** Given an m x n integers matrix, return the length of the longest increasing path. From each cell, you can move in 4 directions. You cannot move outside the boundary or revisit cells.
+- Example: `matrix = [[9,9,4],[6,6,8],[2,1,1]]` → Output: `4` (path: 1→2→6→9)
 ```cpp
 class Solution {
 public:
@@ -6336,6 +6533,8 @@ private:
 ```
 
 #### LC #79 - Word Search
+**Problem:** Given an m x n grid of characters board and a string word, return true if word exists in the grid. The word can be constructed from sequentially adjacent cells (horizontally or vertically). Same cell cannot be used more than once.
+- Example: `board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "ABCCED"` → Output: `true`
 ```cpp
 class Solution {
 public:
@@ -6378,7 +6577,10 @@ private:
 
 ### Heap Solutions
 
-#### LC #215 - Kth Largest Element in Array
+#### LC #215 - Kth Largest Element in an Array
+**Problem:** Given an integer array nums and an integer k, return the kth largest element in the array. Note that it is the kth largest element in sorted order, not the kth distinct element.
+- Example: `nums = [3,2,1,5,6,4], k = 2` → Output: `5`
+- Example: `nums = [3,2,3,1,2,4,5,5,6], k = 4` → Output: `4`
 ```cpp
 class Solution {
 public:
@@ -6399,6 +6601,8 @@ public:
 ```
 
 #### LC #347 - Top K Frequent Elements
+**Problem:** Given an integer array nums and an integer k, return the k most frequent elements. You may return the answer in any order.
+- Example: `nums = [1,1,1,2,2,3], k = 2` → Output: `[1,2]`
 ```cpp
 class Solution {
 public:
@@ -6428,6 +6632,8 @@ public:
 ```
 
 #### LC #295 - Find Median from Data Stream
+**Problem:** Design a data structure that supports adding integers from a data stream and finding the median of all elements added so far. Implement `addNum(int num)` and `findMedian() → double`.
+- Example: `addNum(1), addNum(2), findMedian() → 1.5, addNum(3), findMedian() → 2.0`
 ```cpp
 class MedianFinder {
 private:
@@ -6456,6 +6662,8 @@ public:
 ```
 
 #### LC #973 - K Closest Points to Origin
+**Problem:** Given an array of points where points[i] = [xi, yi] represents a point on the X-Y plane, return the k closest points to the origin (0, 0). Distance is Euclidean distance.
+- Example: `points = [[1,3],[-2,2]], k = 1` → Output: `[[-2,2]]` (distance √8 < √10)
 ```cpp
 class Solution {
 public:
@@ -6482,6 +6690,8 @@ public:
 ```
 
 #### LC #621 - Task Scheduler
+**Problem:** Given a char array tasks representing tasks a CPU needs to do, and a non-negative integer n representing cooldown period between same tasks, return the minimum units of time the CPU needs to finish all tasks.
+- Example: `tasks = ["A","A","A","B","B","B"], n = 2` → Output: `8` (A→B→idle→A→B→idle→A→B)
 ```cpp
 class Solution {
 public:
@@ -6501,6 +6711,9 @@ public:
 ```
 
 #### LC #253 - Meeting Rooms II
+**Problem:** Given an array of meeting time intervals [[s1,e1],[s2,e2],...] (si < ei), find the minimum number of conference rooms required.
+- Example: `intervals = [[0,30],[5,10],[15,20]]` → Output: `2`
+- Example: `intervals = [[7,10],[2,4]]` → Output: `1`
 ```cpp
 class Solution {
 public:
@@ -6524,6 +6737,8 @@ public:
 ### Backtracking Solutions
 
 #### LC #46 - Permutations
+**Problem:** Given an array nums of distinct integers, return all the possible permutations. You can return the answer in any order.
+- Example: `nums = [1,2,3]` → Output: `[[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]`
 ```cpp
 class Solution {
 public:
@@ -6550,6 +6765,8 @@ private:
 ```
 
 #### LC #47 - Permutations II
+**Problem:** Given a collection of numbers nums, that might contain duplicates, return all possible unique permutations in any order.
+- Example: `nums = [1,1,2]` → Output: `[[1,1,2],[1,2,1],[2,1,1]]`
 ```cpp
 class Solution {
 public:
@@ -6585,6 +6802,8 @@ private:
 ```
 
 #### LC #78 - Subsets
+**Problem:** Given an integer array nums of unique elements, return all possible subsets (the power set). The solution set must not contain duplicate subsets.
+- Example: `nums = [1,2,3]` → Output: `[[],[1],[2],[1,2],[3],[1,3],[2,3],[1,2,3]]`
 ```cpp
 class Solution {
 public:
@@ -6610,6 +6829,8 @@ private:
 ```
 
 #### LC #90 - Subsets II
+**Problem:** Given an integer array nums that may contain duplicates, return all possible subsets (the power set). The solution set must not contain duplicate subsets.
+- Example: `nums = [1,2,2]` → Output: `[[],[1],[1,2],[1,2,2],[2],[2,2]]`
 ```cpp
 class Solution {
 public:
@@ -6638,6 +6859,8 @@ private:
 ```
 
 #### LC #39 - Combination Sum
+**Problem:** Given an array of distinct integers candidates and a target integer target, return a list of all unique combinations where the chosen numbers sum to target. The same number may be used unlimited times.
+- Example: `candidates = [2,3,6,7], target = 7` → Output: `[[2,2,3],[7]]`
 ```cpp
 class Solution {
 public:
@@ -6668,6 +6891,8 @@ private:
 ```
 
 #### LC #40 - Combination Sum II
+**Problem:** Given a collection of candidate numbers (candidates) and a target number (target), find all unique combinations in candidates where the candidate numbers sum to target. Each number may only be used once.
+- Example: `candidates = [10,1,2,7,6,1,5], target = 8` → Output: `[[1,1,6],[1,2,5],[1,7],[2,6]]`
 ```cpp
 class Solution {
 public:
@@ -6700,6 +6925,8 @@ private:
 ```
 
 #### LC #22 - Generate Parentheses
+**Problem:** Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.
+- Example: `n = 3` → Output: `["((()))","(()())","(())()","()(())","()()()"]`
 ```cpp
 class Solution {
 public:
@@ -6727,6 +6954,8 @@ private:
 ```
 
 #### LC #51 - N-Queens
+**Problem:** The n-queens puzzle is the problem of placing n queens on an n x n chessboard such that no two queens attack each other. Return all distinct solutions.
+- Example: `n = 4` → Output: `[[".Q..","...Q","Q...","..Q."],["..Q.","Q...","...Q",".Q.."]]`
 ```cpp
 class Solution {
 public:
@@ -6776,7 +7005,9 @@ private:
 };
 ```
 
-#### LC #17 - Letter Combinations of Phone Number
+#### LC #17 - Letter Combinations of a Phone Number
+**Problem:** Given a string containing digits from 2-9, return all possible letter combinations that the number could represent (like phone buttons). Mapping: 2→abc, 3→def, 4→ghi, 5→jkl, 6→mno, 7→pqrs, 8→tuv, 9→wxyz.
+- Example: `digits = "23"` → Output: `["ad","ae","af","bd","be","bf","cd","ce","cf"]`
 ```cpp
 class Solution {
 public:
@@ -6808,6 +7039,8 @@ private:
 ### Dynamic Programming Solutions
 
 #### LC #70 - Climbing Stairs
+**Problem:** You are climbing a staircase. It takes n steps to reach the top. Each time you can climb 1 or 2 steps. In how many distinct ways can you climb to the top?
+- Example: `n = 3` → Output: `3` (1+1+1, 1+2, 2+1)
 ```cpp
 class Solution {
 public:
@@ -6827,6 +7060,9 @@ public:
 ```
 
 #### LC #198 - House Robber
+**Problem:** Given an array representing money at each house, return the maximum money you can rob without robbing two adjacent houses.
+- Example: `nums = [1,2,3,1]` → Output: `4` (rob houses 1 and 3: 1+3)
+- Example: `nums = [2,7,9,3,1]` → Output: `12` (rob houses 1, 3, 5: 2+9+1)
 ```cpp
 class Solution {
 public:
@@ -6849,6 +7085,9 @@ public:
 ```
 
 #### LC #213 - House Robber II
+**Problem:** Same as House Robber, but houses are arranged in a circle (first and last houses are adjacent). Return maximum money you can rob.
+- Example: `nums = [2,3,2]` → Output: `3` (cannot rob both first and last)
+- Example: `nums = [1,2,3,1]` → Output: `4`
 ```cpp
 class Solution {
 public:
@@ -6875,6 +7114,8 @@ private:
 ```
 
 #### LC #300 - Longest Increasing Subsequence
+**Problem:** Given an integer array nums, return the length of the longest strictly increasing subsequence.
+- Example: `nums = [10,9,2,5,3,7,101,18]` → Output: `4` (subsequence: [2,3,7,101])
 ```cpp
 class Solution {
 public:
@@ -6896,6 +7137,9 @@ public:
 ```
 
 #### LC #322 - Coin Change
+**Problem:** Given an array of coin denominations and a target amount, return the fewest number of coins needed to make up that amount. Return -1 if not possible.
+- Example: `coins = [1,2,5], amount = 11` → Output: `3` (5+5+1)
+- Example: `coins = [2], amount = 3` → Output: `-1`
 ```cpp
 class Solution {
 public:
@@ -6917,6 +7161,8 @@ public:
 ```
 
 #### LC #518 - Coin Change II
+**Problem:** Given an array of distinct coin denominations and a target amount, return the number of combinations that make up that amount. If impossible, return 0.
+- Example: `amount = 5, coins = [1,2,5]` → Output: `4` (5, 2+2+1, 2+1+1+1, 1+1+1+1+1)
 ```cpp
 class Solution {
 public:
@@ -6936,6 +7182,8 @@ public:
 ```
 
 #### LC #1143 - Longest Common Subsequence
+**Problem:** Given two strings text1 and text2, return the length of their longest common subsequence. If no common subsequence, return 0.
+- Example: `text1 = "abcde", text2 = "ace"` → Output: `3` (subsequence: "ace")
 ```cpp
 class Solution {
 public:
@@ -6959,6 +7207,8 @@ public:
 ```
 
 #### LC #72 - Edit Distance
+**Problem:** Given two strings word1 and word2, return the minimum number of operations required to convert word1 to word2. Operations: insert, delete, or replace a character.
+- Example: `word1 = "horse", word2 = "ros"` → Output: `3` (horse→rorse→rose→ros)
 ```cpp
 class Solution {
 public:
@@ -6985,6 +7235,9 @@ public:
 ```
 
 #### LC #416 - Partition Equal Subset Sum
+**Problem:** Given an integer array nums, return true if you can partition the array into two subsets such that the sum of elements in both subsets is equal.
+- Example: `nums = [1,5,11,5]` → Output: `true` ([1,5,5] and [11])
+- Example: `nums = [1,2,3,5]` → Output: `false`
 ```cpp
 class Solution {
 public:
@@ -7008,6 +7261,8 @@ public:
 ```
 
 #### LC #494 - Target Sum
+**Problem:** Given an integer array nums and an integer target, return the number of different expressions you can build by adding '+' or '-' before each number to reach the target sum.
+- Example: `nums = [1,1,1,1,1], target = 3` → Output: `5` (-1+1+1+1+1, +1-1+1+1+1, ...)
 ```cpp
 class Solution {
 public:
@@ -7032,6 +7287,9 @@ public:
 ```
 
 #### LC #139 - Word Break
+**Problem:** Given a string s and a dictionary wordDict, return true if s can be segmented into a space-separated sequence of one or more dictionary words.
+- Example: `s = "leetcode", wordDict = ["leet","code"]` → Output: `true`
+- Example: `s = "catsandog", wordDict = ["cats","dog","sand","and","cat"]` → Output: `false`
 ```cpp
 class Solution {
 public:
@@ -7056,6 +7314,9 @@ public:
 ```
 
 #### LC #5 - Longest Palindromic Substring
+**Problem:** Given a string s, return the longest palindromic substring in s.
+- Example: `s = "babad"` → Output: `"bab"` or `"aba"`
+- Example: `s = "cbbd"` → Output: `"bb"`
 ```cpp
 class Solution {
 public:
@@ -7091,6 +7352,9 @@ private:
 ```
 
 #### LC #62 - Unique Paths
+**Problem:** A robot is located at the top-left corner of an m x n grid. It can only move right or down. How many unique paths are there to reach the bottom-right corner?
+- Example: `m = 3, n = 7` → Output: `28`
+- Example: `m = 3, n = 2` → Output: `3`
 ```cpp
 class Solution {
 public:
@@ -7109,6 +7373,8 @@ public:
 ```
 
 #### LC #64 - Minimum Path Sum
+**Problem:** Given an m x n grid filled with non-negative numbers, find a path from top left to bottom right (only move right or down), which minimizes the sum of all numbers along its path.
+- Example: `grid = [[1,3,1],[1,5,1],[4,2,1]]` → Output: `7` (1→3→1→1→1)
 ```cpp
 class Solution {
 public:
@@ -7130,6 +7396,8 @@ public:
 ```
 
 #### LC #221 - Maximal Square
+**Problem:** Given an m x n binary matrix filled with 0's and 1's, find the largest square containing only 1's and return its area.
+- Example: `matrix = [["1","0","1","0","0"],["1","0","1","1","1"],["1","1","1","1","1"],["1","0","0","1","0"]]` → Output: `4`
 ```cpp
 class Solution {
 public:
@@ -7153,6 +7421,8 @@ public:
 ```
 
 #### LC #312 - Burst Balloons
+**Problem:** Given n balloons with values nums[i]. If you burst balloon i, you get nums[i-1]*nums[i]*nums[i+1] coins (boundary balloons have value 1). Return maximum coins by bursting all balloons wisely.
+- Example: `nums = [3,1,5,8]` → Output: `167` (burst 1→3*1*5=15, then 5→3*5*8=120, then 3→1*3*8=24, then 8→1*8*1=8)
 ```cpp
 class Solution {
 public:
@@ -7182,6 +7452,9 @@ public:
 ```
 
 #### LC #91 - Decode Ways
+**Problem:** A message containing letters A-Z can be encoded to numbers 1-26. Given a string s containing only digits, return the number of ways to decode it.
+- Example: `s = "12"` → Output: `2` (AB or L)
+- Example: `s = "226"` → Output: `3` (BZ, VF, or BBF)
 ```cpp
 class Solution {
 public:
@@ -7213,8 +7486,10 @@ public:
 ```
 
 #### LC #121-122-123-188-309-714 - Stock Problems
+**Problem Family:** Given array prices where prices[i] is the price of a given stock on day i, maximize profit with various constraints.
 
-##### LC #122 - Best Time II (Unlimited transactions)
+##### LC #122 - Best Time to Buy and Sell Stock II (Unlimited transactions)
+**Problem:** You can complete as many transactions as you like (buy one, sell one repeatedly). Find maximum profit.
 ```cpp
 class Solution {
 public:
@@ -7230,7 +7505,8 @@ public:
 };
 ```
 
-##### LC #309 - Best Time with Cooldown
+##### LC #309 - Best Time to Buy and Sell Stock with Cooldown
+**Problem:** After selling, you cannot buy the next day (1-day cooldown). Find maximum profit.
 ```cpp
 class Solution {
 public:
@@ -7254,7 +7530,8 @@ public:
 };
 ```
 
-##### LC #714 - Best Time with Transaction Fee
+##### LC #714 - Best Time to Buy and Sell Stock with Transaction Fee
+**Problem:** You may complete as many transactions but must pay a transaction fee for each. Find maximum profit.
 ```cpp
 class Solution {
 public:
@@ -7275,6 +7552,8 @@ public:
 ### Interval Solutions
 
 #### LC #56 - Merge Intervals
+**Problem:** Given an array of intervals where intervals[i] = [starti, endi], merge all overlapping intervals and return an array of non-overlapping intervals.
+- Example: `intervals = [[1,3],[2,6],[8,10],[15,18]]` → Output: `[[1,6],[8,10],[15,18]]`
 ```cpp
 class Solution {
 public:
@@ -7296,6 +7575,8 @@ public:
 ```
 
 #### LC #57 - Insert Interval
+**Problem:** Given a set of non-overlapping intervals sorted by start, insert a new interval and merge if necessary.
+- Example: `intervals = [[1,2],[3,5],[6,7],[8,10],[12,16]], newInterval = [4,8]` → Output: `[[1,2],[3,10],[12,16]]`
 ```cpp
 class Solution {
 public:
@@ -7327,6 +7608,8 @@ public:
 ```
 
 #### LC #435 - Non-overlapping Intervals
+**Problem:** Given an array of intervals, return the minimum number of intervals you need to remove to make the rest non-overlapping.
+- Example: `intervals = [[1,2],[2,3],[3,4],[1,3]]` → Output: `1` (remove [1,3])
 ```cpp
 class Solution {
 public:
@@ -7353,7 +7636,11 @@ public:
 
 ### Trie Solutions
 
-#### LC #208 - Implement Trie
+#### LC #208 - Implement Trie (Prefix Tree)
+**Problem:** Implement a trie with insert, search, and startsWith methods.
+- `insert(word)` - inserts word into the trie
+- `search(word)` - returns true if word is in the trie
+- `startsWith(prefix)` - returns true if any word starts with prefix
 ```cpp
 class Trie {
 private:
@@ -7403,6 +7690,8 @@ private:
 ```
 
 #### LC #212 - Word Search II
+**Problem:** Given an m x n board of characters and a list of words, return all words on the board. Each word must be formed from letters of sequentially adjacent cells.
+- Example: `board = [["o","a","a","n"],["e","t","a","e"],["i","h","k","r"],["i","f","l","v"]], words = ["oath","pea","eat","rain"]` → Output: `["eat","oath"]`
 ```cpp
 class Solution {
 public:
@@ -7466,6 +7755,9 @@ private:
 ### Bit Manipulation Solutions
 
 #### LC #136 - Single Number
+**Problem:** Given a non-empty array of integers nums, every element appears twice except for one. Find that single one. Must use O(1) extra space.
+- Example: `nums = [2,2,1]` → Output: `1`
+- Example: `nums = [4,1,2,1,2]` → Output: `4`
 ```cpp
 class Solution {
 public:
@@ -7480,6 +7772,9 @@ public:
 ```
 
 #### LC #137 - Single Number II
+**Problem:** Given an integer array nums where every element appears three times except for one. Find the single element that appears exactly once. Must use O(1) extra space.
+- Example: `nums = [2,2,3,2]` → Output: `3`
+- Example: `nums = [0,1,0,1,0,1,99]` → Output: `99`
 ```cpp
 class Solution {
 public:
@@ -7495,6 +7790,9 @@ public:
 ```
 
 #### LC #268 - Missing Number
+**Problem:** Given an array nums containing n distinct numbers in the range [0, n], return the only number in the range that is missing from the array.
+- Example: `nums = [3,0,1]` → Output: `2`
+- Example: `nums = [9,6,4,2,3,5,7,0,1]` → Output: `8`
 ```cpp
 class Solution {
 public:
@@ -7509,7 +7807,10 @@ public:
 };
 ```
 
-#### LC #191 - Number of 1 Bits
+#### LC #191 - Number of 1 Bits (Hamming Weight)
+**Problem:** Write a function that takes an unsigned integer and returns the number of '1' bits it has (also known as the Hamming weight).
+- Example: `n = 00000000000000000000000000001011` → Output: `3`
+- Example: `n = 11111111111111111111111111111101` → Output: `31`
 ```cpp
 class Solution {
 public:
@@ -7527,6 +7828,9 @@ public:
 ### Union Find Solutions
 
 #### LC #684 - Redundant Connection
+**Problem:** Given a graph that started as a tree with n nodes labeled 1 to n, with one additional edge added. Return the edge that can be removed so the resulting graph is a tree of n nodes.
+- Example: `edges = [[1,2],[1,3],[2,3]]` → Output: `[2,3]`
+- Example: `edges = [[1,2],[2,3],[3,4],[1,4],[1,5]]` → Output: `[1,4]`
 ```cpp
 class Solution {
 public:
@@ -7559,6 +7863,8 @@ public:
 ```
 
 #### LC #721 - Accounts Merge
+**Problem:** Given a list of accounts where accounts[i][0] is a name, and the rest are emails. Merge accounts belonging to the same person (same email in different accounts). Return merged accounts with sorted emails.
+- Example: `[["John","john@mail.com","john_newyork@mail.com"],["John","john00@mail.com"],["John","johnsmith@mail.com","john@mail.com"]]` → Merge first and third (share john@mail.com)
 ```cpp
 class Solution {
 public:
