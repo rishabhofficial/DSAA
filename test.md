@@ -1,351 +1,417 @@
-# LLM Gateway
+# LLM Gateway - LLD/Machine Coding Interview
 
-A production-grade LLM Gateway service that provides unified API access to multiple LLM providers (OpenAI, Anthropic, local models) with intelligent traffic management, graduated circuit breaking, and enterprise features.
+A simplified LLM gateway demonstrating **graduated circuit breaker** pattern with canary-based recovery.
 
-## Features
+**Total: ~740 lines | 8 files | Writable in ~30 mins**
 
-- **Multi-Provider Routing** - Route requests to OpenAI, Anthropic, or local models
-- **Graduated Traffic Shifting** - Intelligent circuit breaker with canary-based recovery
-- **License Tiers** - Free, Pro, and Enterprise tiers with model/rate restrictions
-- **Response Caching** - In-memory caching with TTL for identical requests
-- **Session Memory** - Cross-model conversation continuity
-- **Usage Tracking** - Per-user token and cost accounting
-- **Health Checking** - Periodic provider health probes
+---
 
-## Architecture
+## Problem Statement
 
-```mermaid
-graph TB
-    subgraph Client
-        A[HTTP Request]
-    end
+Design an LLM Gateway that:
+1. Routes requests to multiple LLM providers (OpenAI, Anthropic)
+2. Handles provider failures gracefully with **graduated traffic shifting**
+3. Automatically recovers using **canary-based probing**
+4. Rate limits requests per client
+5. Performs periodic health checks
 
-    subgraph Gateway
-        B[Auth Service]
-        C[License Check]
-        D[Rate Limiter]
-        E[Cache]
-        F[Memory Store]
-        G[Router]
-        H[Traffic Shifting CB]
-    end
+---
 
-    subgraph Providers
-        I[OpenAI]
-        J[Anthropic]
-        K[Local vLLM]
-    end
+## Entities & Class Diagram
 
-    subgraph Monitoring
-        L[Usage Tracker]
-        M[Health Checker]
-    end
-
-    A --> B
-    B --> C
-    C --> D
-    D --> E
-    E -->|Miss| F
-    F --> G
-    G --> H
-    H -->|Primary| I
-    H -->|Secondary| J
-    H -->|Tertiary| K
-    I --> L
-    J --> L
-    K --> L
-    M -.->|Probes| I
-    M -.->|Probes| J
-    M -.->|Probes| K
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                            ENTITIES                                  │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                      │
+│  ┌──────────────┐         ┌──────────────────┐                      │
+│  │   Gateway    │────────▶│    Provider      │ (interface)          │
+│  └──────────────┘    *    └──────────────────┘                      │
+│         │                         ▲                                  │
+│         │                         │ implements                       │
+│         │                 ┌───────┴────────┐                        │
+│         │                 │  MockProvider  │                        │
+│         │                 └────────────────┘                        │
+│         │                                                            │
+│         │ 1:*     ┌───────────────────┐                             │
+│         ├────────▶│  CircuitBreaker   │ (per provider)              │
+│         │         └───────────────────┘                             │
+│         │                    │                                       │
+│         │                    │ has state                            │
+│         │                    ▼                                       │
+│         │         ┌───────────────────┐                             │
+│         │         │   TrafficState    │ (enum)                      │
+│         │         │ HEALTHY/DEGRADED/ │                             │
+│         │         │ RECOVERING/OPEN   │                             │
+│         │         └───────────────────┘                             │
+│         │                                                            │
+│         │ 1:1     ┌───────────────────┐                             │
+│         ├────────▶│   RateLimiter     │                             │
+│         │         └───────────────────┘                             │
+│         │                                                            │
+│         │ 1:1     ┌───────────────────┐      probes                 │
+│         └────────▶│   HealthChecker   │─────────────▶ Providers     │
+│                   └───────────────────┘      updates                │
+│                            │                    │                    │
+│                            └────────────────────┘                    │
+│                              CircuitBreakers                         │
+│                                                                      │
+└─────────────────────────────────────────────────────────────────────┘
 ```
 
-## Request Processing Pipeline
+---
+
+## Entity Details
+
+### 1. CircuitBreaker (Core - ~240 lines)
+
+```go
+type CircuitBreaker struct {
+    mu               sync.RWMutex
+    providerID       string
+    state            TrafficState
+    cfg              CircuitBreakerConfig
+
+    // HEALTHY state tracking
+    failureCount     int
+
+    // DEGRADED state tracking
+    canarySuccesses  int
+    canaryFailures   int
+
+    // RECOVERING state tracking
+    rampIndex        int           // index into [5, 25, 50, 75, 100]
+    rampSuccessCount int
+
+    // FULLY_OPEN cooldown
+    lastStateChange  time.Time
+}
+
+// Core Methods
+func (cb *CircuitBreaker) ShouldRouteToPrimary() bool  // Routing decision
+func (cb *CircuitBreaker) RecordSuccess()              // After success
+func (cb *CircuitBreaker) RecordFailure()              // After failure
+func (cb *CircuitBreaker) GetState() TrafficState
+func (cb *CircuitBreaker) GetPrimaryPercent() int
+```
+
+**State Machine:**
+```
+HEALTHY (100% → primary)
+    │ failures >= threshold (3)
+    ▼
+DEGRADED (5% canary, 95% secondary)
+    │
+    ├── canary successes >= 2 → RECOVERING
+    ├── canary failures >= 6 → FULLY_OPEN
+    ▼
+RECOVERING (ramp: 25% → 50% → 75% → 100%)
+    │
+    ├── any failure → back to DEGRADED
+    └── reach 100% → HEALTHY
+
+FULLY_OPEN (0% primary, 100% secondary)
+    │ cooldown (30s) elapsed → DEGRADED
+```
+
+---
+
+### 2. HealthChecker (~80 lines)
+
+```go
+type HealthChecker struct {
+    providers  map[string]Provider
+    breakers   map[string]*CircuitBreaker
+    cfg        HealthCheckConfig
+    stopCh     chan struct{}
+}
+
+// Methods
+func (hc *HealthChecker) Start()                    // Start background goroutine
+func (hc *HealthChecker) Stop()                     // Graceful shutdown
+func (hc *HealthChecker) checkAll()                 // Probe all providers
+func (hc *HealthChecker) checkOne(id, provider)    // Probe single provider
+```
+
+**Behavior:**
+- Runs every `Interval` (10s)
+- On failure → `cb.RecordFailure()`
+- On success (if not healthy) → `cb.RecordSuccess()`
+
+---
+
+### 3. RateLimiter (~65 lines)
+
+```go
+type RateLimiter struct {
+    mu      sync.Mutex
+    windows map[string]*window   // key → window
+}
+
+type window struct {
+    count       int
+    windowStart time.Time
+}
+
+// Methods
+func (rl *RateLimiter) Allow(key string, maxReq int) error
+func (rl *RateLimiter) GetCount(key string) int
+```
+
+**Algorithm:** Sliding window (1-minute)
+
+---
+
+### 4. Provider (Interface + Mock) (~60 lines)
+
+```go
+type Provider interface {
+    ID() string
+    Complete(req *ChatCompletionRequest) (*ChatCompletionResponse, error)
+    HealthCheck() error
+    SetHealthy(bool)
+}
+
+type MockProvider struct {
+    config  ProviderConfig
+    healthy bool
+}
+```
+
+---
+
+### 5. Gateway (~190 lines)
+
+```go
+type Gateway struct {
+    cfg         *Config
+    providers   map[string]Provider
+    breakers    map[string]*CircuitBreaker
+    rateLimiter *RateLimiter
+    healthChk   *HealthChecker
+}
+
+// Methods
+func NewGateway(cfg *Config) *Gateway
+func (gw *Gateway) Start() error
+func (gw *Gateway) handleChat(w, r)           // Main handler
+func (gw *Gateway) handleHealth(w, r)
+func (gw *Gateway) handleProviderControl(w, r)
+```
+
+---
+
+### 6. Config (~55 lines)
+
+```go
+type Config struct {
+    Port              int
+    Providers         []ProviderConfig
+    MaxRequestsPerMin int
+}
+
+type CircuitBreakerConfig struct {
+    FailureThreshold    int
+    CanarySuccessNeeded int
+    RampSuccessNeeded   int
+    CooldownDuration    time.Duration
+}
+
+type HealthCheckConfig struct {
+    Interval time.Duration
+    Timeout  time.Duration
+}
+
+type ProviderConfig struct {
+    ID       string
+    Name     string
+    Priority int
+}
+```
+
+---
+
+### 7. Models (DTOs) (~30 lines)
+
+```go
+type ChatCompletionRequest struct {
+    Model    string
+    Messages []ChatMessage
+}
+
+type ChatCompletionResponse struct {
+    ID       string
+    Model    string
+    Content  string
+    Provider string
+}
+
+type ChatMessage struct {
+    Role    string
+    Content string
+}
+```
+
+---
+
+## Design Patterns Used
+
+| Pattern | Where | Purpose |
+|---------|-------|---------|
+| **State Pattern** | CircuitBreaker | 4 states with different behaviors |
+| **Strategy Pattern** | Provider interface | Swappable LLM backends |
+| **Facade Pattern** | Gateway | Single entry point orchestrating all components |
+| **Observer Pattern** | HealthChecker | Monitors providers, updates circuit breakers |
+| **Singleton-ish** | RateLimiter | Single instance managing all rate limits |
+
+---
+
+## Request Flow
 
 ```mermaid
 sequenceDiagram
     participant C as Client
     participant GW as Gateway
-    participant Auth as AuthService
     participant RL as RateLimiter
-    participant Cache as Cache
-    participant Mem as MemoryStore
-    participant Router as Router
-    participant CB as TrafficShiftCB
-    participant P1 as Primary Provider
-    participant P2 as Secondary Provider
-    participant Usage as UsageTracker
+    participant CB as CircuitBreaker
+    participant P1 as Primary
+    participant P2 as Secondary
 
     C->>GW: POST /v1/chat/completions
-    GW->>Auth: Authenticate(apiKey)
-    Auth-->>GW: User
-
-    GW->>Auth: CheckLicense(user, model)
-    Auth-->>GW: OK
-
-    GW->>RL: AllowRequest(userId, limits)
-    RL-->>GW: OK
-
-    GW->>Cache: Get(cacheKey)
-    alt Cache Hit
-        Cache-->>GW: Cached Response
-        GW-->>C: Response
-    else Cache Miss
-        Cache-->>GW: nil
-
-        GW->>Mem: GetContextMessages(sessionId)
-        Mem-->>GW: History Messages
-
-        GW->>Router: Route(context)
-        Router-->>GW: [Primary, Secondary, ...]
-
+    GW->>RL: Allow(clientIP, 60)
+    alt Rate Limited
+        RL-->>GW: Error
+        GW-->>C: 429 Too Many Requests
+    else Allowed
+        RL-->>GW: OK
         GW->>CB: ShouldRouteToPrimary()
         alt Route to Primary
             CB-->>GW: true
-            GW->>P1: Complete(request)
+            GW->>P1: Complete(req)
             alt Success
                 P1-->>GW: Response
                 GW->>CB: RecordSuccess()
             else Failure
                 P1-->>GW: Error
                 GW->>CB: RecordFailure()
-                GW->>P2: Complete(request)
+                GW->>P2: Complete(req) [Fallback]
                 P2-->>GW: Response
             end
         else Route to Secondary
-            CB-->>GW: false
-            GW->>P2: Complete(request)
+            CB-->>GW: false (5% canary failed)
+            GW->>P2: Complete(req)
             P2-->>GW: Response
         end
-
-        GW->>Cache: Set(cacheKey, response)
-        GW->>Mem: AppendMessages(sessionId, messages)
-        GW->>Usage: Record(requestLog)
         GW-->>C: Response
     end
 ```
 
-## Traffic Shifting State Machine
+---
 
-The gateway uses a graduated circuit breaker instead of binary open/closed states:
+## State Machine Diagram
 
 ```mermaid
 stateDiagram-v2
     [*] --> HEALTHY
 
-    HEALTHY --> DEGRADED: failures >= threshold
+    HEALTHY --> DEGRADED: failures >= 3
 
-    DEGRADED --> RECOVERING: canary successes >= needed
-    DEGRADED --> FULLY_OPEN: canary failures >= max
+    DEGRADED --> RECOVERING: canarySuccesses >= 2
+    DEGRADED --> FULLY_OPEN: canaryFailures >= 6
 
-    RECOVERING --> HEALTHY: reached 100%
-    RECOVERING --> DEGRADED: any failure during ramp
+    RECOVERING --> HEALTHY: rampIndex reaches 100%
+    RECOVERING --> DEGRADED: any failure
 
-    FULLY_OPEN --> DEGRADED: cooldown elapsed
+    FULLY_OPEN --> DEGRADED: cooldown (30s) elapsed
 
-    note right of HEALTHY: 100% to primary
-    note right of DEGRADED: 5% canary to primary\n95% to secondary
-    note right of RECOVERING: Ramp: 25% → 50% → 75% → 100%
-    note right of FULLY_OPEN: 0% to primary\n100% to secondary
+    note right of HEALTHY: 100% → Primary
+    note right of DEGRADED: 5% canary, 95% secondary
+    note right of RECOVERING: 25% → 50% → 75% → 100%
+    note right of FULLY_OPEN: 0% primary, wait cooldown
 ```
 
-### Traffic Distribution by State
+---
+
+## Traffic Distribution Table
 
 | State | Primary % | Secondary % | Behavior |
 |-------|-----------|-------------|----------|
 | HEALTHY | 100% | 0% | All traffic to primary |
-| DEGRADED | 5% | 95% | Canary probing primary |
+| DEGRADED | 5% | 95% | Canary probing |
 | RECOVERING | 25→50→75→100% | 75→50→25→0% | Gradual ramp-up |
 | FULLY_OPEN | 0% | 100% | Complete failover |
 
-## Routing Strategies
+---
 
-```mermaid
-graph LR
-    subgraph Strategies
-        A[Priority] --> B[Lower number wins]
-        C[Weighted] --> D[Random by weight]
-        E[Cost-Based] --> F[Cheapest first]
-        G[Round-Robin] --> H[Cycle through]
-    end
+## File Structure
+
+```
+llm-gateway/
+├── main.go              (27 lines)  - Entry point
+├── config.go            (55 lines)  - Configuration structs
+├── models.go            (28 lines)  - Request/Response DTOs
+├── provider.go          (59 lines)  - Provider interface + Mock
+├── circuitbreaker.go   (237 lines)  - **CORE** State machine
+├── healthcheck.go       (78 lines)  - **CORE** Periodic probing
+├── ratelimiter.go       (65 lines)  - Sliding window rate limit
+├── handler.go          (191 lines)  - Gateway + HTTP handlers
+└── go.mod
+                        ─────────────
+                        ~740 lines total
 ```
 
-## Component Interactions
-
-```mermaid
-graph TB
-    subgraph Core
-        Gateway[Gateway]
-        Handler[HTTP Handlers]
-    end
-
-    subgraph Authentication
-        Auth[AuthService]
-        Users[(Users DB)]
-    end
-
-    subgraph Traffic
-        Router[Router]
-        CB[TrafficShiftRegistry]
-        TS[TrafficShiftingCB]
-    end
-
-    subgraph Providers
-        Registry[ProviderRegistry]
-        OpenAI[OpenAIProvider]
-        Anthropic[AnthropicProvider]
-        Mock[MockProvider]
-    end
-
-    subgraph State
-        Cache[Cache]
-        Memory[MemoryStore]
-        RateLimiter[RateLimiter]
-        Usage[UsageTracker]
-    end
-
-    subgraph Background
-        HealthCheck[HealthChecker]
-    end
-
-    Gateway --> Handler
-    Handler --> Auth
-    Auth --> Users
-    Handler --> Router
-    Router --> CB
-    CB --> TS
-    Handler --> Registry
-    Registry --> OpenAI
-    Registry --> Anthropic
-    Registry --> Mock
-    Handler --> Cache
-    Handler --> Memory
-    Handler --> RateLimiter
-    Handler --> Usage
-    HealthCheck --> Registry
-    HealthCheck --> CB
-```
-
-## License Tiers
-
-```mermaid
-graph TB
-    subgraph Free Tier
-        F1[gpt-3.5-turbo]
-        F2[claude-haiku]
-        F3[llama-3-8b]
-        F4[mistral-7b]
-        F5[10 RPM / 40K TPM]
-    end
-
-    subgraph Pro Tier
-        P1[All Free models]
-        P2[gpt-4o / gpt-4o-mini]
-        P3[claude-sonnet]
-        P4[60 RPM / 200K TPM]
-    end
-
-    subgraph Enterprise Tier
-        E1[All Pro models]
-        E2[500 RPM / 2M TPM]
-        E3[Priority routing]
-    end
-```
+---
 
 ## API Endpoints
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| POST | `/v1/chat/completions` | Main chat completion API (OpenAI-compatible) |
-| GET | `/health` | Gateway health status |
-| GET | `/v1/providers/status` | Traffic shift states for all providers |
-| GET | `/v1/usage` | Usage and cost tracking |
-| GET | `/v1/cache/stats` | Cache statistics |
+| POST | `/v1/chat/completions` | Chat request (rate limited) |
+| GET | `/health` | Provider states & circuit breaker status |
 | PUT | `/v1/providers/{id}/down` | Simulate provider failure |
 | PUT | `/v1/providers/{id}/up` | Restore provider |
+
+---
 
 ## Quick Start
 
 ```bash
-# Run the gateway
 go run .
 
-# Test with a request
-curl -X POST http://localhost:8080/v1/chat/completions \
-  -H "Authorization: Bearer gw-pro-key-456" \
+# Send request
+curl -X POST localhost:8080/v1/chat/completions \
   -H "Content-Type: application/json" \
-  -d '{"model":"gpt-4o","messages":[{"role":"user","content":"Hello!"}]}'
+  -d '{"model":"gpt-4","messages":[{"role":"user","content":"Hi"}]}'
+
+# Check health
+curl localhost:8080/health
+
+# Simulate failure (triggers DEGRADED state)
+curl -X PUT localhost:8080/v1/providers/openai/down
+
+# Restore (triggers recovery)
+curl -X PUT localhost:8080/v1/providers/openai/up
 ```
 
-## Demo API Keys
+---
 
-| Tier | API Key |
-|------|---------|
-| Free | `gw-free-key-123` |
-| Pro | `gw-pro-key-456` |
-| Enterprise | `gw-ent-key-789` |
+## Key Interview Talking Points
 
-## Demo Flow
+### Why Graduated Circuit Breaker?
+- Traditional binary (OPEN/CLOSED) is too aggressive
+- Canary allows safe probing without risking all traffic
+- Gradual ramp-up prevents thundering herd on recovery
 
-```mermaid
-sequenceDiagram
-    participant User
-    participant Gateway
-    participant OpenAI as OpenAI (Primary)
-    participant Anthropic as Anthropic (Secondary)
+### Thread Safety
+- `sync.RWMutex` in CircuitBreaker for concurrent access
+- `sync.Mutex` in RateLimiter for window updates
 
-    Note over Gateway: State: HEALTHY (100% OpenAI)
+### Extensibility
+- `Provider` interface allows adding real OpenAI/Anthropic
+- Config-driven thresholds
+- Easy to add more states (e.g., HALF_OPEN)
 
-    User->>Gateway: Send requests
-    Gateway->>OpenAI: Route 100%
-    OpenAI-->>Gateway: Success
-
-    User->>Gateway: PUT /providers/openai/down
-    Note over Gateway: State: DEGRADED (5%/95%)
-
-    User->>Gateway: Send requests
-    Gateway->>Anthropic: Route 95%
-    Gateway->>OpenAI: Canary 5%
-
-    User->>Gateway: PUT /providers/openai/up
-    Note over Gateway: State: RECOVERING
-
-    loop Gradual Ramp
-        Gateway->>OpenAI: 25% → 50% → 75%
-        OpenAI-->>Gateway: Success
-    end
-
-    Note over Gateway: State: HEALTHY (100% OpenAI)
-```
-
-## File Structure
-
-```
-├── main.go            # Entry point
-├── handler.go         # Gateway struct and HTTP handlers
-├── models.go          # Data structures
-├── config.go          # Configuration
-├── router.go          # Provider selection and ordering
-├── circuitbreaker.go  # Graduated traffic-shifting CB
-├── provider.go        # Provider adapters (OpenAI, Anthropic, Mock)
-├── auth.go            # Authentication and license checking
-├── cache.go           # Response caching
-├── ratelimiter.go     # Per-user rate limiting
-├── memory.go          # Session/conversation memory
-├── usage.go           # Token and cost tracking
-├── healthcheck.go     # Provider health probing
-└── go.mod             # Go module file
-```
-
-## Configuration
-
-Default configuration is set in `config.go`. Key settings:
-
-- **Port**: 8080
-- **Routing Strategy**: Priority-based
-- **Cache TTL**: 3600 seconds
-- **Health Check Interval**: 30 seconds
-- **Circuit Breaker Thresholds**:
-  - Failure threshold: 5
-  - Canary successes needed: 3
-  - Ramp successes needed: 5
-  - Cooldown: 60 seconds
+### Trade-offs
+- In-memory rate limiting (loses state on restart) vs Redis
+- Simple sliding window vs token bucket
+- Mock providers vs real HTTP clients
